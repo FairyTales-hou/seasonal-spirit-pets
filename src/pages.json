@@ -1,0 +1,96 @@
+{
+  "pages": [
+    {
+      "path": "pages/onboarding/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/home/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/tips/detail",
+      "style": {
+        "navigationBarTitleText": "今日节气建议"
+      }
+    },
+    {
+      "path": "pages/knowledge/index",
+      "style": {
+        "navigationBarTitleText": "节气知识"
+      }
+    },
+    {
+      "path": "pages/interaction/index",
+      "style": {
+        "navigationBarTitleText": "去陪陪它"
+      }
+    },
+    {
+      "path": "pages/atlas/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/pet/detail",
+      "style": {
+        "navigationBarTitleText": "灵宠详情"
+      }
+    },
+    {
+      "path": "pages/favorites/index",
+      "style": {
+        "navigationBarTitleText": "我的收藏"
+      }
+    },
+    {
+      "path": "pages/records/index",
+      "style": {
+        "navigationBarTitleText": "连续陪伴记录"
+      }
+    },
+    {
+      "path": "pages/about/index",
+      "style": {
+        "navigationBarTitleText": "关于节气灵宠"
+      }
+    },
+    {
+      "path": "pages/mine/index",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "tabBar": {
+    "color": "#8F8A80",
+    "selectedColor": "#5E7754",
+    "borderStyle": "black",
+    "backgroundColor": "#FFFDF8",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/atlas/index",
+        "text": "图鉴"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "节气灵宠",
+    "navigationBarBackgroundColor": "#FFFDF8",
+    "backgroundColor": "#FFFDF8"
+  }
+}

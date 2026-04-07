@@ -1,0 +1,15 @@
+{
+  "name": "节气灵宠",
+  "appid": "__UNI__SEASONAL_SPIRIT_PETS",
+  "description": "陪你过节气的东方生活小宠物",
+  "versionName": "0.1.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "",
+    "setting": {
+      "urlCheck": false
+    },
+    "usingComponents": true
+  }
+}

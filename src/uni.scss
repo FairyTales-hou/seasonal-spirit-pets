@@ -1,0 +1,27 @@
+page {
+  background: #fffaf2;
+  color: #40372f;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+view,
+text,
+button,
+scroll-view,
+swiper,
+swiper-item {
+  box-sizing: border-box;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  line-height: inherit;
+
+  &::after {
+    border: none;
+  }
+}
