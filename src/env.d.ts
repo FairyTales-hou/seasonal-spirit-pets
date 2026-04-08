@@ -5,3 +5,11 @@ declare module '@dcloudio/vite-plugin-uni' {
 
   export default function uni(): Plugin | Plugin[]
 }
+
+interface ImportMetaEnv {
+  readonly VITE_QWEATHER_KEY: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}

@@ -1,8 +1,14 @@
 page {
-  background: #fffaf2;
-  color: #40372f;
+  background: #eef4fb;
+  color: #18314f;
   font-size: 28rpx;
   line-height: 1.5;
+  font-family:
+    "SF Pro Display",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei",
+    sans-serif;
 }
 
 view,
@@ -20,6 +26,7 @@ button {
   border: none;
   background: transparent;
   line-height: inherit;
+  font-family: inherit;
 
   &::after {
     border: none;

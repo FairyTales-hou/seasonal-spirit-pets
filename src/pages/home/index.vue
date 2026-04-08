@@ -9,6 +9,21 @@ import { ROUTES } from '@/constants/routes'
 
 const { homeData, currentPet } = useHome()
 
+const copy = {
+  headerPrefix: '今日',
+  nextTerm: '距离下一个节气还有',
+  days: '天',
+  picksTitle: '今日建议',
+  picksCaption: '一眼能扫完的轻提醒',
+  nextTitle: '现在适合做什么',
+  ritualBadge: '每日陪伴',
+  ritualTitle: '去陪陪它',
+  ritualDesc: '完成今天的一次轻互动',
+  notesBadge: '节气小记',
+  notesTitle: '看看节气小知识',
+  notesDesc: '滑几张轻量知识卡',
+}
+
 function goTo(url: string) {
   uni.navigateTo({ url })
 }
@@ -16,11 +31,14 @@ function goTo(url: string) {
 
 <template>
   <view class="container">
-    <AppHeader :title="`今日节气 · ${homeData.solarTerm}`" :subtitle="homeData.dateText" />
+    <view class="floating floating--left" />
+    <view class="floating floating--right" />
 
-    <view class="topline section-gap">
+    <AppHeader :title="`${copy.headerPrefix} · ${homeData.solarTerm}`" :subtitle="homeData.dateText" />
+
+    <view class="topline card section-gap">
       <text class="pill">{{ homeData.solarTermTagline }}</text>
-      <text class="topline__text">距离下一个节气还有 {{ homeData.daysUntilNextTerm }} 天</text>
+      <text class="topline__text">{{ copy.nextTerm }} {{ homeData.daysUntilNextTerm }} {{ copy.days }}</text>
     </view>
 
     <view class="section-gap" @click="goTo(ROUTES.petDetail)">
@@ -28,7 +46,7 @@ function goTo(url: string) {
     </view>
 
     <view class="section-gap">
-      <SectionTitle title="今日建议" caption="一眼能扫完的轻提醒" />
+      <SectionTitle :title="copy.picksTitle" :caption="copy.picksCaption" />
       <view class="tips-grid">
         <view v-for="item in homeData.suggestions" :key="item.title" @click="goTo(ROUTES.tipsDetail)">
           <TipSummaryCard :item="item" />
@@ -37,15 +55,17 @@ function goTo(url: string) {
     </view>
 
     <view class="section-gap">
-      <SectionTitle title="现在适合做什么" />
+      <SectionTitle :title="copy.nextTitle" />
       <view class="action-grid">
         <button class="action-card card" @click="goTo(ROUTES.interaction)">
-          <text class="action-card__title">去陪陪它</text>
-          <text class="action-card__desc">完成今天的一次轻互动</text>
+          <text class="action-card__badge">{{ copy.ritualBadge }}</text>
+          <text class="action-card__title">{{ copy.ritualTitle }}</text>
+          <text class="action-card__desc">{{ copy.ritualDesc }}</text>
         </button>
         <button class="action-card card" @click="goTo(ROUTES.knowledge)">
-          <text class="action-card__title">看看节气小知识</text>
-          <text class="action-card__desc">滑几张轻量知识卡</text>
+          <text class="action-card__badge">{{ copy.notesBadge }}</text>
+          <text class="action-card__title">{{ copy.notesTitle }}</text>
+          <text class="action-card__desc">{{ copy.notesDesc }}</text>
         </button>
       </view>
     </view>
@@ -69,6 +89,7 @@ function goTo(url: string) {
   align-items: center;
   justify-content: space-between;
   gap: 16rpx;
+  padding: 22rpx 24rpx;
 }
 
 .topline__text {
@@ -85,14 +106,22 @@ function goTo(url: string) {
 
 .action-card {
   width: 100%;
-  padding: 24rpx;
+  padding: 28rpx 24rpx;
   text-align: left;
+}
+
+.action-card__badge {
+  display: inline-flex;
+  margin-bottom: 16rpx;
+  font-size: 20rpx;
+  color: $color-primary;
+  letter-spacing: 1.2rpx;
 }
 
 .action-card__title {
   display: block;
-  font-size: 28rpx;
-  font-weight: 600;
+  font-size: 30rpx;
+  font-weight: 700;
   color: $color-text-primary;
 }
 
@@ -100,6 +129,32 @@ function goTo(url: string) {
   display: block;
   margin-top: 10rpx;
   font-size: 24rpx;
+  line-height: 1.65;
   color: $color-text-secondary;
+}
+
+.floating {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(14rpx);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.floating--left {
+  top: 160rpx;
+  left: -36rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: radial-gradient(circle, rgba(255, 219, 188, 0.88) 0%, rgba(255, 219, 188, 0) 72%);
+}
+
+.floating--right {
+  top: 440rpx;
+  right: -30rpx;
+  width: 150rpx;
+  height: 150rpx;
+  background: radial-gradient(circle, rgba(136, 197, 255, 0.8) 0%, rgba(136, 197, 255, 0) 74%);
 }
 </style>

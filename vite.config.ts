@@ -11,10 +11,15 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/wttr': {
-        target: 'https://wttr.in',
+      '/qweather-geo': {
+        target: 'https://mf3wt3a8u8.re.qweatherapi.com',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/wttr/, ''),
+        rewrite: (path) => path.replace(/^\/qweather-geo/, ''),
+      },
+      '/qweather-weather': {
+        target: 'https://mf3wt3a8u8.re.qweatherapi.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/qweather-weather/, ''),
       },
     },
   },

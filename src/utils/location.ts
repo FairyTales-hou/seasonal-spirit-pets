@@ -1,15 +1,29 @@
 const DEFAULT_CITY = '郑州'
 
-export function getCity(lastCity?: string): Promise<string> {
+export interface CityQuery {
+  location: string
+  fallbackCityName: string
+}
+
+export function getCity(lastCity?: string): Promise<CityQuery> {
+  const fallbackCityName = lastCity || DEFAULT_CITY
+
+  const formatCoord = (value: number) => Number(value.toFixed(2)).toString()
+
   return new Promise((resolve) => {
     uni.getLocation({
       type: 'wgs84',
       success: (res) => {
-        // wttr.in uses "lat,lon" format
-        resolve(`${res.latitude},${res.longitude}`)
+        resolve({
+          location: `${formatCoord(res.longitude)},${formatCoord(res.latitude)}`,
+          fallbackCityName,
+        })
       },
       fail: () => {
-        resolve(lastCity || DEFAULT_CITY)
+        resolve({
+          location: fallbackCityName,
+          fallbackCityName,
+        })
       },
     })
   })

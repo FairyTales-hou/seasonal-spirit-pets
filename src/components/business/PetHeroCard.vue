@@ -16,6 +16,8 @@ defineProps<{
     </view>
     <view class="hero__art">
       <view class="hero__orb">
+        <view class="hero__orb-ring hero__orb-ring--outer" />
+        <view class="hero__orb-ring hero__orb-ring--inner" />
         <text class="hero__emoji">🐾</text>
       </view>
     </view>
@@ -42,36 +44,69 @@ defineProps<{
 
 .hero__name {
   font-size: 24rpx;
+  font-weight: 600;
   color: $color-text-secondary;
 }
 
 .hero__art {
   display: flex;
   justify-content: center;
-  padding: 32rpx 0 24rpx;
+  padding: 42rpx 0 28rpx;
 }
 
 .hero__orb {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 280rpx;
-  height: 280rpx;
+  width: 320rpx;
+  height: 320rpx;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #fef6e6 0%, #e8f1dc 100%);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.36) 22%, rgba(255, 255, 255, 0) 48%),
+    radial-gradient(circle at 66% 72%, rgba(173, 212, 255, 0.54) 0%, rgba(173, 212, 255, 0.04) 42%, rgba(173, 212, 255, 0) 65%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(225, 239, 255, 0.4) 100%);
+  border: 1rpx solid rgba(255, 255, 255, 0.8);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.88),
+    0 22rpx 52rpx rgba(72, 121, 176, 0.18);
+}
+
+.hero__orb-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1rpx solid rgba(255, 255, 255, 0.58);
+}
+
+.hero__orb-ring--outer {
+  inset: 18rpx;
+}
+
+.hero__orb-ring--inner {
+  inset: 48rpx;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 72%);
 }
 
 .hero__emoji {
-  font-size: 120rpx;
+  position: relative;
+  z-index: 1;
+  font-size: 122rpx;
+  font-weight: 700;
+  color: $color-primary;
+  text-shadow:
+    0 0 20rpx rgba(255, 255, 255, 0.74),
+    0 10rpx 24rpx rgba(73, 122, 179, 0.24);
 }
 
 .hero__bubble {
+  position: relative;
   padding: 24rpx;
   border-radius: $radius-lg;
-  background: #fffdf8;
+  background: rgba(255, 255, 255, 0.36);
+  border: 1rpx solid rgba(255, 255, 255, 0.62);
   color: $color-text-primary;
   font-size: 28rpx;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .hero__tags {
@@ -82,9 +117,10 @@ defineProps<{
 }
 
 .hero__tag {
-  padding: 8rpx 18rpx;
+  padding: 10rpx 18rpx;
   border-radius: 999rpx;
-  background: $color-bg-soft;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1rpx solid rgba(255, 255, 255, 0.62);
   color: $color-secondary;
   font-size: 22rpx;
 }

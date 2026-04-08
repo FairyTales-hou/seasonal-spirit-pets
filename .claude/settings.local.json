@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "MultiEdit",
+      "Bash(pnpm:*)",
+      "Bash(node:*)",
+      "WebSearch",
+      "WebFetch(domain:uniapp.dcloud.net.cn)",
+      "Bash(echo EXIT:$?)",
+      "Bash('D:/ctsi/practice/seasonal-spirit-pets/src/mock/solar-term-content.ts')"
+    ]
+  }
+}

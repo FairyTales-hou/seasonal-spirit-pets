@@ -1,61 +1,28 @@
+import type { CityQuery } from '@/utils/location'
+
 const IS_H5_DEV = import.meta.env.DEV
-const WTTR_BASE = IS_H5_DEV ? '/wttr' : 'https://wttr.in'
+const GEO_BASE = IS_H5_DEV ? '/qweather-geo/geo' : 'https://geoapi.qweather.com/geo'
+const WEATHER_BASE = IS_H5_DEV ? '/qweather-weather' : 'https://devapi.qweather.com'
+const QWEATHER_KEY = import.meta.env.VITE_QWEATHER_KEY
 
-const DESC_MAP: Record<string, string> = {
-  Sunny: '晴',
-  Clear: '晴',
-  'Partly cloudy': '多云',
-  Cloudy: '阴',
-  Overcast: '阴天',
-  Mist: '薄雾',
-  Fog: '雾',
-  'Freezing fog': '冻雾',
-  'Light drizzle': '毛毛雨',
-  'Freezing drizzle': '冻毛毛雨',
-  'Heavy freezing drizzle': '强冻毛毛雨',
-  'Light rain': '小雨',
-  'Moderate rain': '中雨',
-  'Heavy rain': '大雨',
-  'Light freezing rain': '小冻雨',
-  'Moderate or heavy freezing rain': '冻雨',
-  'Light sleet': '小雨夹雪',
-  'Moderate or heavy sleet': '雨夹雪',
-  'Light snow': '小雪',
-  'Moderate snow': '中雪',
-  'Heavy snow': '大雪',
-  Blizzard: '暴风雪',
-  'Patchy rain possible': '局部有雨',
-  'Patchy snow possible': '局部有雪',
-  'Thundery outbreaks possible': '雷阵雨',
-  'Blowing snow': '吹雪',
-  'Light rain shower': '阵雨',
-  'Moderate or heavy rain shower': '强阵雨',
-  'Torrential rain shower': '暴雨',
-  'Light sleet showers': '阵雨夹雪',
-  'Light snow showers': '阵雪',
-  'Moderate or heavy snow showers': '强阵雪',
-  'Light showers of ice pellets': '阵冰雹',
-  'Moderate or heavy showers of ice pellets': '强冰雹',
-  'Patchy light rain with thunder': '雷雨',
-  'Moderate or heavy rain with thunder': '强雷雨',
-  'Patchy light snow with thunder': '雷雪',
-  'Moderate or heavy snow with thunder': '强雷雪',
+interface QWeatherGeoLocation {
+  id: string
+  name: string
+  adm1?: string
+  adm2?: string
 }
 
-function translateDesc(desc: string): string {
-  return DESC_MAP[desc] ?? desc
+interface QWeatherGeoResponse {
+  code: string
+  location?: QWeatherGeoLocation[]
 }
 
-interface WttrResponse {
-  current_condition: Array<{
-    temp_C: string
-    lang_zh: Array<{ value: string }>
-    weatherDesc: Array<{ value: string }>
-  }>
-  nearest_area: Array<{
-    areaName: Array<{ value: string }>
-    region: Array<{ value: string }>
-  }>
+interface QWeatherNowResponse {
+  code: string
+  now?: {
+    text: string
+    temp: string
+  }
 }
 
 export interface WeatherNow {
@@ -64,31 +31,67 @@ export interface WeatherNow {
   cityName: string
 }
 
-export async function getWeatherSummary(query: string): Promise<WeatherNow> {
-  const url = `${WTTR_BASE}/${encodeURIComponent(query)}?format=j1`
+function request<T>(url: string): Promise<T> {
   return new Promise((resolve, reject) => {
     uni.request({
       url,
+      header: {
+        'X-QW-Api-Key': QWEATHER_KEY,
+      },
       success: (res) => {
         if (res.statusCode !== 200) {
           reject(new Error(`HTTP ${res.statusCode}`))
           return
         }
-        const data = res.data as WttrResponse
-        const cond = data?.current_condition?.[0]
-        if (!cond) {
-          reject(new Error('wttr: 无数据'))
-          return
-        }
-        const area = data?.nearest_area?.[0]
-        const cityName = area?.areaName?.[0]?.value || area?.region?.[0]?.value || ''
-        resolve({
-          text: cond.lang_zh?.[0]?.value || translateDesc(cond.weatherDesc?.[0]?.value ?? ''),
-          temp: cond.temp_C,
-          cityName,
-        })
+        resolve(res.data as T)
       },
       fail: (err) => reject(new Error(String(err))),
     })
   })
+}
+
+function formatCityName(location?: QWeatherGeoLocation, fallbackCityName?: string) {
+  if (!location) {
+    return fallbackCityName || ''
+  }
+
+  const parts = [location.name, location.adm2, location.adm1].filter(Boolean)
+  return Array.from(new Set(parts)).join(' · ')
+}
+
+function assertKey() {
+  if (!QWEATHER_KEY) {
+    throw new Error('缺少和风天气 API Key')
+  }
+}
+
+async function lookupCity(query: CityQuery) {
+  assertKey()
+
+  const url = `${GEO_BASE}/v2/city/lookup?location=${encodeURIComponent(query.location)}`
+  const result = await request<QWeatherGeoResponse>(url)
+
+  if (result.code !== '200' || !result.location?.length) {
+    throw new Error(`QWeather Geo lookup failed: ${result.code}`)
+  }
+
+  return result.location[0]
+}
+
+export async function getWeatherSummary(query: CityQuery): Promise<WeatherNow> {
+  assertKey()
+
+  const city = await lookupCity(query)
+  const weatherUrl = `${WEATHER_BASE}/v7/weather/now?location=${encodeURIComponent(city.id)}`
+  const result = await request<QWeatherNowResponse>(weatherUrl)
+
+  if (result.code !== '200' || !result.now) {
+    throw new Error(`QWeather weather failed: ${result.code}`)
+  }
+
+  return {
+    text: result.now.text,
+    temp: result.now.temp,
+    cityName: formatCityName(city, query.fallbackCityName),
+  }
 }

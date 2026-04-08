@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { HOME_DATA, INTERACTION_BUBBLES } from '@/mock/home'
+import { getSolarTermContent } from '@/mock/solar-term-content'
 import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
 import { getCity } from '@/utils/location'
 import { getWeatherSummary } from '@/services/weather'
@@ -47,12 +48,10 @@ export const useHomeStore = defineStore('home', {
         this.homeData.cityName = savedState.cityName
       }
 
-      // 检查是否跨天，跨天则重置互动状态
       const todayKey = toDateKey(new Date())
       const lastDate = typeof savedState?.lastInteractDate === 'string' ? savedState.lastInteractDate : ''
       if (lastDate && lastDate !== todayKey) {
         this.homeData.interactionDone = false
-        // 如果昨天没有互动（lastDate 不是昨天），断连
         const yesterday = new Date()
         yesterday.setDate(yesterday.getDate() - 1)
         if (lastDate !== toDateKey(yesterday)) {
@@ -108,6 +107,7 @@ export const useHomeStore = defineStore('home', {
       this.homeData.solarTermTagline = term.tagline
       this.homeData.petId = term.id
       this.homeData.daysUntilNextTerm = daysUntilNext
+      this.homeData.suggestions = getSolarTermContent(term.id).suggestions
 
       try {
         const query = await getCity(this.homeData.cityName)

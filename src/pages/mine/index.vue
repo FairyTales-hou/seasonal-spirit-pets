@@ -5,22 +5,32 @@ import { ROUTES } from '@/constants/routes'
 
 const { mineActions, homeData } = useHome()
 
-function handleAction(title: string, available: boolean) {
+const copy = {
+  title: '我的',
+  subtitle: '把今天的陪伴、收藏和设置放在这里',
+  eyebrow: '个人空间',
+  namePrefix: '正在和',
+  nameSuffix: '一起生活',
+  descPrefix: '已连续陪伴',
+  descSuffix: '天，今天也适合慢一点照顾自己。',
+}
+
+function handleAction(index: number, available: boolean) {
   if (!available) {
     return
   }
 
-  if (title === '我的收藏') {
+  if (index === 0) {
     uni.navigateTo({ url: ROUTES.favorites })
     return
   }
 
-  if (title === '连续陪伴记录') {
+  if (index === 1) {
     uni.navigateTo({ url: ROUTES.records })
     return
   }
 
-  if (title === '关于节气灵宠') {
+  if (index === mineActions.length - 1) {
     uni.navigateTo({ url: ROUTES.about })
   }
 }
@@ -28,26 +38,27 @@ function handleAction(title: string, available: boolean) {
 
 <template>
   <view class="container">
-    <AppHeader title="我的" subtitle="把今天的陪伴、收藏和设置放在这里" />
+    <AppHeader :title="copy.title" :subtitle="copy.subtitle" />
 
     <view class="profile card section-gap">
-      <text class="profile__name">和 {{ homeData.solarTerm }} 灵宠一起生活中</text>
-      <text class="profile__desc">已连续陪伴 {{ homeData.streakDays }} 天，今天也适合慢一点照顾自己。</text>
+      <text class="profile__eyebrow">{{ copy.eyebrow }}</text>
+      <text class="profile__name">{{ copy.namePrefix }} {{ homeData.solarTerm }} {{ copy.nameSuffix }}</text>
+      <text class="profile__desc">{{ copy.descPrefix }} {{ homeData.streakDays }} {{ copy.descSuffix }}</text>
     </view>
 
     <view class="actions section-gap">
       <view
-        v-for="item in mineActions"
+        v-for="(item, index) in mineActions"
         :key="item.title"
         class="actions__item card"
         :class="{ 'actions__item--disabled': !item.available }"
-        @click="handleAction(item.title, item.available)"
+        @click="handleAction(index, item.available)"
       >
         <view>
           <text class="actions__text">{{ item.title }}</text>
           <text class="actions__desc">{{ item.description }}</text>
         </view>
-        <text class="actions__arrow">›</text>
+        <text class="actions__arrow">&gt;</text>
       </view>
     </view>
   </view>
@@ -60,10 +71,19 @@ function handleAction(title: string, available: boolean) {
   padding: 28rpx;
 }
 
+.profile__eyebrow {
+  display: block;
+  margin-bottom: 12rpx;
+  font-size: 20rpx;
+  color: $color-primary;
+  letter-spacing: 1.4rpx;
+}
+
 .profile__name {
   display: block;
-  font-size: 32rpx;
-  font-weight: 600;
+  font-size: 34rpx;
+  font-weight: 700;
+  line-height: 1.35;
   color: $color-text-primary;
 }
 
@@ -85,16 +105,17 @@ function handleAction(title: string, available: boolean) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 26rpx 24rpx;
+  padding: 28rpx 24rpx;
 }
 
 .actions__item--disabled {
-  opacity: 0.68;
+  opacity: 0.58;
 }
 
 .actions__text {
   display: block;
   font-size: 28rpx;
+  font-weight: 600;
   color: $color-text-primary;
 }
 
@@ -107,7 +128,7 @@ function handleAction(title: string, available: boolean) {
 }
 
 .actions__arrow {
-  font-size: 36rpx;
-  color: $color-text-secondary;
+  font-size: 32rpx;
+  color: $color-primary;
 }
 </style>

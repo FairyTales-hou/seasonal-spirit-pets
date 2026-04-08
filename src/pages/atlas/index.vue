@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import AppHeader from '@/components/common/AppHeader.vue'
 import SectionTitle from '@/components/common/SectionTitle.vue'
 import { useHome } from '@/composables/useHome'
@@ -6,9 +7,21 @@ import { ROUTES } from '@/constants/routes'
 import { SEASON_LABELS } from '@/constants/solar-terms'
 import type { PetProfile } from '@/types/pet'
 
-const { pets, unlockedPets, homeData } = useHome()
+const { pets, homeData } = useHome()
 
 const groups = ['spring', 'summer', 'autumn', 'winter'] as const
+const copy = {
+  title: '图鉴',
+  subtitle: '把一年四季的小灵宠慢慢收集起来',
+  progressEyebrow: '图鉴进度',
+  unlocked: '已解锁',
+  currentTerm: '当前节气',
+  seasonSuffix: '之灵宠',
+  locked: '未解锁',
+}
+
+const isUnlockedPet = (pet: PetProfile) => pet.unlocked || pet.id === homeData.value.petId
+const atlasUnlockedPets = computed(() => pets.filter((pet) => isUnlockedPet(pet)))
 
 function openPetDetail(pet: PetProfile) {
   uni.navigateTo({ url: `${ROUTES.petDetail}?petId=${pet.id}` })
@@ -17,25 +30,26 @@ function openPetDetail(pet: PetProfile) {
 
 <template>
   <view class="container">
-    <AppHeader title="节气图鉴" subtitle="把一年四季的小灵宠慢慢收集起来" />
+    <AppHeader :title="copy.title" :subtitle="copy.subtitle" />
 
     <view class="card progress section-gap">
-      <text class="progress__title">已解锁 {{ unlockedPets.length }} / {{ pets.length }}</text>
-      <text class="progress__desc">当前节气 · {{ homeData.solarTerm }}</text>
+      <text class="progress__eyebrow">{{ copy.progressEyebrow }}</text>
+      <text class="progress__title">{{ copy.unlocked }} {{ atlasUnlockedPets.length }} / {{ pets.length }}</text>
+      <text class="progress__desc">{{ copy.currentTerm }} · {{ homeData.solarTerm }}</text>
     </view>
 
     <view v-for="season in groups" :key="season" class="section-gap">
-      <SectionTitle :title="`${SEASON_LABELS[season]}之灵宠`" />
+      <SectionTitle :title="`${SEASON_LABELS[season]}${copy.seasonSuffix}`" />
       <view class="atlas-grid">
         <view
           v-for="pet in pets.filter((item) => item.season === season)"
           :key="pet.id"
           class="atlas-card card"
-          :class="{ 'atlas-card--active': pet.solarTerm === homeData.solarTerm, 'atlas-card--locked': !pet.unlocked }"
+          :class="{ 'atlas-card--active': pet.solarTerm === homeData.solarTerm, 'atlas-card--locked': !isUnlockedPet(pet) }"
           @click="openPetDetail(pet)"
         >
-          <text class="atlas-card__emoji">{{ pet.unlocked ? '🐾' : '🌫️' }}</text>
-          <text class="atlas-card__name">{{ pet.unlocked ? pet.name : '未解锁' }}</text>
+          <text class="atlas-card__emoji">{{ isUnlockedPet(pet) ? '🐾' : '🌫️' }}</text>
+          <text class="atlas-card__name">{{ isUnlockedPet(pet) ? pet.name : copy.locked }}</text>
           <text class="atlas-card__term">{{ pet.solarTerm }}</text>
         </view>
       </view>
@@ -50,10 +64,18 @@ function openPetDetail(pet: PetProfile) {
   padding: 28rpx;
 }
 
+.progress__eyebrow {
+  display: block;
+  margin-bottom: 10rpx;
+  font-size: 20rpx;
+  color: $color-primary;
+  letter-spacing: 1.4rpx;
+}
+
 .progress__title {
   display: block;
-  font-size: 30rpx;
-  font-weight: 600;
+  font-size: 32rpx;
+  font-weight: 700;
   color: $color-text-primary;
 }
 
@@ -75,11 +97,15 @@ function openPetDetail(pet: PetProfile) {
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  padding: 28rpx 20rpx;
+  min-height: 220rpx;
+  padding: 28rpx 22rpx;
 }
 
 .atlas-card--active {
-  border-color: rgba(190, 143, 99, 0.45);
+  border-color: rgba(132, 184, 255, 0.52);
+  box-shadow:
+    0 24rpx 60rpx rgba(57, 109, 179, 0.18),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.78);
 }
 
 .atlas-card--locked {
@@ -87,17 +113,27 @@ function openPetDetail(pet: PetProfile) {
 }
 
 .atlas-card__emoji {
-  font-size: 60rpx;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 20rpx;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1rpx solid rgba(255, 255, 255, 0.62);
+  font-size: 30rpx;
+  color: $color-primary;
 }
 
 .atlas-card__name {
   font-size: 28rpx;
-  font-weight: 600;
+  font-weight: 700;
   color: $color-text-primary;
 }
 
 .atlas-card__term {
   font-size: 22rpx;
+  line-height: 1.5;
   color: $color-text-secondary;
 }
 </style>

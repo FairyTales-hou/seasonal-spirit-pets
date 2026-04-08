@@ -1,4 +1,12 @@
 <script setup lang="ts">
+const labels = {
+  today: '今日状态',
+  done: '今天已完成互动',
+  waiting: '今天还没有互动',
+  streakSuffix: '天连续陪伴',
+  growth: '成长值',
+}
+
 defineProps<{
   interactionDone: boolean
   streakDays: number
@@ -10,18 +18,18 @@ defineProps<{
 <template>
   <view class="growth card">
     <view class="growth__row">
-      <view>
-        <text class="growth__label">今日互动</text>
-        <text class="growth__value">{{ interactionDone ? '今天已经陪过它啦' : '今天还没有和它打招呼' }}</text>
+      <view class="growth__main">
+        <text class="growth__label">{{ labels.today }}</text>
+        <text class="growth__value">{{ interactionDone ? labels.done : labels.waiting }}</text>
       </view>
-      <text class="pill">连续陪伴 {{ streakDays }} 天</text>
+      <text class="pill">{{ streakDays }} {{ labels.streakSuffix }}</text>
     </view>
 
     <view class="growth__progress">
       <view class="growth__bar">
         <view class="growth__bar-fill" :style="{ width: `${Math.min((growthValue / nextLevelGrowth) * 100, 100)}%` }" />
       </view>
-      <text class="growth__hint">成长值 {{ growthValue }} / {{ nextLevelGrowth }}</text>
+      <text class="growth__hint">{{ labels.growth }} {{ growthValue }} / {{ nextLevelGrowth }}</text>
     </view>
   </view>
 </template>
@@ -40,9 +48,14 @@ defineProps<{
   gap: 24rpx;
 }
 
+.growth__main {
+  flex: 1;
+}
+
 .growth__label {
   display: block;
   font-size: 24rpx;
+  letter-spacing: 1rpx;
   color: $color-text-secondary;
 }
 
@@ -50,6 +63,8 @@ defineProps<{
   display: block;
   margin-top: 10rpx;
   font-size: 28rpx;
+  font-weight: 600;
+  line-height: 1.55;
   color: $color-text-primary;
 }
 
@@ -60,15 +75,19 @@ defineProps<{
 .growth__bar {
   overflow: hidden;
   width: 100%;
-  height: 18rpx;
+  height: 20rpx;
   border-radius: 999rpx;
-  background: #efe7d8;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1rpx solid rgba(255, 255, 255, 0.62);
 }
 
 .growth__bar-fill {
   height: 100%;
   border-radius: 999rpx;
-  background: linear-gradient(90deg, #cda36b 0%, #6c845f 100%);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0) 40%),
+    linear-gradient(90deg, #8ac1ff 0%, #6b96ea 50%, #b9d6ff 100%);
+  box-shadow: 0 8rpx 18rpx rgba(88, 132, 205, 0.3);
 }
 
 .growth__hint {
