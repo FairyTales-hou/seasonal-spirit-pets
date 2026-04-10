@@ -1,31 +1,54 @@
 <script setup lang="ts">
-import { useAppStore } from '@/store/app'
+import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { ROUTES } from '@/constants/routes'
+import { useAppStore } from '@/store/app'
 
 const appStore = useAppStore()
+const redirected = ref(false)
+
+const copy = {
+  badge: '节气灵宠',
+  title: '陪你把一年四季慢慢过完',
+  desc: '在每一个节气里，认识一只属于当下的小灵宠。看天气、看节气、看它怎么慢慢长大。',
+  cardTitle: '今天的节气入口已经准备好了',
+  cardText: '首期先用静态城市和天气演示，后续再继续接入真实定位、天气和提醒能力。',
+  primary: '开始今天的节气旅程',
+  secondary: '先看看再说',
+}
+
+function skipIfOnboarded() {
+  if (!appStore.hasOnboarded || redirected.value) {
+    return
+  }
+
+  redirected.value = true
+  uni.switchTab({ url: ROUTES.home })
+}
 
 function enterApp() {
   appStore.completeOnboarding()
   uni.switchTab({ url: ROUTES.home })
 }
+
+onShow(skipIfOnboarded)
+skipIfOnboarded()
 </script>
 
 <template>
   <view class="container onboarding">
     <view class="onboarding__hero">
-      <text class="onboarding__badge">节气灵宠</text>
-      <text class="onboarding__title">陪你过节气的东方生活小宠物</text>
-      <text class="onboarding__desc">
-        在每一个时令里，认识一只属于当下的小灵宠。看看今天适合怎么穿、怎么吃、怎么慢慢照顾自己。
-      </text>
+      <text class="onboarding__badge">{{ copy.badge }}</text>
+      <text class="onboarding__title">{{ copy.title }}</text>
+      <text class="onboarding__desc">{{ copy.desc }}</text>
     </view>
 
     <view class="onboarding__card card">
-      <text class="onboarding__card-title">今天的节气入口已经准备好了</text>
-      <text class="onboarding__card-text">首期先用静态城市与天气演示，下一步再接真实定位与天气能力。</text>
+      <text class="onboarding__card-title">{{ copy.cardTitle }}</text>
+      <text class="onboarding__card-text">{{ copy.cardText }}</text>
       <view class="onboarding__actions">
-        <button class="primary-button" @click="enterApp">开启今日节气</button>
-        <button class="secondary-button" @click="enterApp">先随便看看</button>
+        <button class="primary-button" @click="enterApp">{{ copy.primary }}</button>
+        <button class="secondary-button" @click="enterApp">{{ copy.secondary }}</button>
       </view>
     </view>
   </view>

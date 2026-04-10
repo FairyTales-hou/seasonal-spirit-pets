@@ -9,6 +9,7 @@ export function useHome() {
 
   const homeData = computed(() => homeStore.homeData)
   const favoritePetIds = computed(() => homeStore.favoritePetIds)
+  const recordEntries = computed(() => homeStore.recordEntries)
   const getPetById = (petId?: string) => PETS.find((pet) => pet.id === petId)
   const currentPet = computed(() => getPetById(homeData.value.petId) ?? PETS[0])
   const unlockedPets = computed(() => PETS.filter((pet) => pet.unlocked || pet.id === homeData.value.petId))
@@ -25,6 +26,7 @@ export function useHome() {
     isFavoritePet,
     pets: PETS,
     unlockedPets,
+    recordEntries,
     detailedSuggestions: computed(() => currentTermContent.value.detailedSuggestions),
     knowledgeCards: computed(() => currentTermContent.value.knowledgeCards),
     interactionFeedback: INTERACTION_FEEDBACK,

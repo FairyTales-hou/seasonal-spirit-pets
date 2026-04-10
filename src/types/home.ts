@@ -27,6 +27,17 @@ export interface DetailedSuggestionSection {
   content: string
 }
 
+export type RecordEntryType = 'system' | 'interaction' | 'milestone'
+
+export interface RecordEntry {
+  id: string
+  dateKey: string
+  type: RecordEntryType
+  badge: string
+  title: string
+  content: string
+}
+
 export interface MineActionItem {
   title: string
   description: string

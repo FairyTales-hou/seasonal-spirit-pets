@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import type { RecordEntry } from '@/types/home'
 import { HOME_DATA, INTERACTION_BUBBLES } from '@/mock/home'
 import { getSolarTermContent } from '@/mock/solar-term-content'
 import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
@@ -7,6 +8,8 @@ import { getWeatherSummary } from '@/services/weather'
 
 const HOME_STORAGE_KEY = 'seasonal-spirit-pets:home'
 const GROWTH_REWARD = 8
+const MAX_RECORD_ENTRIES = 24
+const MILESTONE_STEPS = [3, 7, 14]
 
 interface HomeStorageState {
   interactionDone: boolean
@@ -16,6 +19,57 @@ interface HomeStorageState {
   favoritePetIds: string[]
   cityName: string
   lastInteractDate: string
+  recordEntries: RecordEntry[]
+}
+
+function createRecordId(dateKey: string, kind: string) {
+  return `${dateKey}-${kind}-${Math.random().toString(36).slice(2, 8)}`
+}
+
+function isRecordEntry(item: unknown): item is RecordEntry {
+  if (!item || typeof item !== 'object') {
+    return false
+  }
+
+  const candidate = item as RecordEntry
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.dateKey === 'string' &&
+    typeof candidate.type === 'string' &&
+    typeof candidate.badge === 'string' &&
+    typeof candidate.title === 'string' &&
+    typeof candidate.content === 'string'
+  )
+}
+
+function normalizeRecordEntries(entries: unknown): RecordEntry[] {
+  if (!Array.isArray(entries)) {
+    return []
+  }
+
+  return entries.filter(isRecordEntry).slice(0, MAX_RECORD_ENTRIES)
+}
+
+function createSeedRecord(dateKey: string, solarTerm: string): RecordEntry {
+  return {
+    id: createRecordId(dateKey, 'seed'),
+    dateKey,
+    type: 'system',
+    badge: '今日',
+    title: '节气灵宠已经准备好',
+    content: `当前节气是 ${solarTerm}，今天开始的每一次陪伴都会被记录下来。`,
+  }
+}
+
+function createMilestoneRecord(dateKey: string, title: string, content: string): RecordEntry {
+  return {
+    id: createRecordId(dateKey, 'milestone'),
+    dateKey,
+    type: 'milestone',
+    badge: '成长节点',
+    title,
+    content,
+  }
 }
 
 export const useHomeStore = defineStore('home', {
@@ -23,6 +77,7 @@ export const useHomeStore = defineStore('home', {
     homeData: { ...HOME_DATA },
     favoritePetIds: [] as string[],
     lastInteractDate: '',
+    recordEntries: [] as RecordEntry[],
   }),
   actions: {
     hydrate() {
@@ -66,23 +121,60 @@ export const useHomeStore = defineStore('home', {
       if (Array.isArray(favoritePetIds)) {
         this.favoritePetIds = favoritePetIds.filter((item): item is string => typeof item === 'string')
       }
+
+      this.recordEntries = normalizeRecordEntries(savedState?.recordEntries)
     },
     interact(action: string) {
       if (this.homeData.interactionDone) {
         return null
       }
 
+      const dateKey = toDateKey(new Date())
       const bubble = INTERACTION_BUBBLES[Math.floor(Math.random() * INTERACTION_BUBBLES.length)]
       const growthValue = Math.min(this.homeData.growthValue + GROWTH_REWARD, this.homeData.nextLevelGrowth)
+      const nextStreakDays = this.homeData.streakDays + 1
+      const milestoneEntries: RecordEntry[] = []
+
+      if (MILESTONE_STEPS.includes(nextStreakDays)) {
+        milestoneEntries.push(
+          createMilestoneRecord(
+            dateKey,
+            `连续陪伴 ${nextStreakDays} 天`,
+            `连续 ${nextStreakDays} 天都完成了互动，灵宠已经开始记住你的节奏。`,
+          ),
+        )
+      }
+
+      if (growthValue === this.homeData.nextLevelGrowth) {
+        milestoneEntries.push(
+          createMilestoneRecord(
+            dateKey,
+            '成长值抵达当前阶段上限',
+            `成长值已经来到 ${growthValue}，下一步可以继续把陪伴积累成新的阶段。`,
+          ),
+        )
+      }
 
       this.homeData = {
         ...this.homeData,
         interactionDone: true,
         growthValue,
-        streakDays: this.homeData.streakDays + 1,
+        streakDays: nextStreakDays,
         petBubble: bubble,
       }
-      this.lastInteractDate = toDateKey(new Date())
+      this.lastInteractDate = dateKey
+      this.recordEntries = [
+        {
+          id: createRecordId(dateKey, 'interaction'),
+          dateKey,
+          type: 'interaction',
+          badge: '今日互动',
+          title: `完成「${action}」`,
+          content: `今天和 ${this.homeData.solarTerm} 灵宠一起完成了一次陪伴，成长值 +${GROWTH_REWARD}。`,
+        },
+        ...milestoneEntries,
+        ...this.recordEntries,
+      ].slice(0, MAX_RECORD_ENTRIES)
 
       this.persist()
 
@@ -109,16 +201,21 @@ export const useHomeStore = defineStore('home', {
       this.homeData.daysUntilNextTerm = daysUntilNext
       this.homeData.suggestions = getSolarTermContent(term.id).suggestions
 
+      if (this.recordEntries.length === 0) {
+        this.recordEntries = [createSeedRecord(toDateKey(now), term.name)]
+      }
+
       try {
         const query = await getCity(this.homeData.cityName)
         const weather = await getWeatherSummary(query)
         const displayCity = weather.cityName || this.homeData.cityName
         this.homeData.cityName = displayCity
         this.homeData.weatherSummary = `${displayCity} · ${weather.text} ${weather.temp}°C`
-        this.persist()
       } catch (e) {
-        console.warn('[weather] 获取失败，保留上次数据', e)
+        console.warn('[weather] 获取失败，保留上一次天气数据', e)
       }
+
+      this.persist()
     },
     persist() {
       uni.setStorageSync(HOME_STORAGE_KEY, {
@@ -129,6 +226,7 @@ export const useHomeStore = defineStore('home', {
         favoritePetIds: this.favoritePetIds,
         cityName: this.homeData.cityName,
         lastInteractDate: this.lastInteractDate,
+        recordEntries: this.recordEntries,
       })
     },
   },

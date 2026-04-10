@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onShow } from '@dcloudio/uni-app'
 import AppHeader from '@/components/common/AppHeader.vue'
 import SectionTitle from '@/components/common/SectionTitle.vue'
 import PetHeroCard from '@/components/business/PetHeroCard.vue'
@@ -6,8 +7,10 @@ import TipSummaryCard from '@/components/business/TipSummaryCard.vue'
 import GrowthPanel from '@/components/business/GrowthPanel.vue'
 import { useHome } from '@/composables/useHome'
 import { ROUTES } from '@/constants/routes'
+import { useAppStore } from '@/store/app'
 
 const { homeData, currentPet } = useHome()
+const appStore = useAppStore()
 
 const copy = {
   headerPrefix: '今日',
@@ -27,6 +30,12 @@ const copy = {
 function goTo(url: string) {
   uni.navigateTo({ url })
 }
+
+onShow(() => {
+  if (!appStore.hasOnboarded) {
+    uni.reLaunch({ url: ROUTES.onboarding })
+  }
+})
 </script>
 
 <template>
