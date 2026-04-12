@@ -20,7 +20,7 @@ function openPetDetail(pet: PetProfile) {
       <SectionTitle :title="`已收藏 ${favoritePets.length} 只灵宠`" />
       <view class="favorites-grid">
         <view v-for="pet in favoritePets" :key="pet.id" class="favorite-card card" @click="openPetDetail(pet)">
-          <text class="favorite-card__emoji">🐾</text>
+          <image class="favorite-card__image" :src="pet.image" mode="aspectFill" />
           <text class="favorite-card__name">{{ pet.name }}</text>
           <text class="favorite-card__term">{{ pet.solarTerm }}</text>
           <text class="favorite-card__quote">{{ pet.quote }}</text>
@@ -49,9 +49,13 @@ function openPetDetail(pet: PetProfile) {
   padding: 28rpx;
 }
 
-.favorite-card__emoji {
+.favorite-card__image {
   display: block;
-  font-size: 52rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 24rpx;
+  background: rgba(255, 255, 255, 0.42);
+  border: 1rpx solid rgba(255, 255, 255, 0.66);
 }
 
 .favorite-card__name {

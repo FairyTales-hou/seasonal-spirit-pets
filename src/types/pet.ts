@@ -5,6 +5,7 @@ export interface PetProfile {
   id: string
   solarTerm: string
   name: string
+  image: string
   spirit: string
   colors: string[]
   elements: string[]

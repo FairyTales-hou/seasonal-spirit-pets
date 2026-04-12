@@ -5,6 +5,8 @@ import { getSolarTermContent } from '@/mock/solar-term-content'
 import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
 import { getCity } from '@/utils/location'
 import { getWeatherSummary } from '@/services/weather'
+import { ensureAnonymousUserId, isSupabaseEnabled } from '@/services/supabase'
+import { fetchHomeProfile, upsertHomeProfile, type HomeProfilePayload } from '@/services/home-profile'
 
 const HOME_STORAGE_KEY = 'seasonal-spirit-pets:home'
 const GROWTH_REWARD = 8
@@ -21,6 +23,8 @@ interface HomeStorageState {
   lastInteractDate: string
   recordEntries: RecordEntry[]
 }
+
+interface HydrateResult extends Partial<HomeStorageState> { }
 
 function createRecordId(dateKey: string, kind: string) {
   return `${dateKey}-${kind}-${Math.random().toString(36).slice(2, 8)}`
@@ -78,10 +82,13 @@ export const useHomeStore = defineStore('home', {
     favoritePetIds: [] as string[],
     lastInteractDate: '',
     recordEntries: [] as RecordEntry[],
+    cloudUserId: '' as string,
   }),
   actions: {
-    hydrate() {
-      const savedState = uni.getStorageSync(HOME_STORAGE_KEY) as Partial<HomeStorageState> | undefined
+    normalizeHydratedState(savedState: HydrateResult | undefined) {
+      if (!savedState) {
+        return
+      }
 
       if (typeof savedState?.interactionDone === 'boolean') {
         this.homeData.interactionDone = savedState.interactionDone
@@ -124,6 +131,34 @@ export const useHomeStore = defineStore('home', {
 
       this.recordEntries = normalizeRecordEntries(savedState?.recordEntries)
     },
+    async hydrate() {
+      const localState = uni.getStorageSync(HOME_STORAGE_KEY) as Partial<HomeStorageState> | undefined
+      this.normalizeHydratedState(localState)
+
+      if (!isSupabaseEnabled) {
+        return
+      }
+
+      try {
+        const userId = await ensureAnonymousUserId()
+        if (!userId) {
+          return
+        }
+        this.cloudUserId = userId
+
+        const cloudState = await fetchHomeProfile(userId)
+        if (cloudState) {
+          this.normalizeHydratedState(cloudState)
+          this.persistLocal()
+          return
+        }
+
+        // 首次云端登录时，把本地状态回写到 Supabase。
+        await this.persist()
+      } catch (error) {
+        console.warn('[supabase] hydrate 失败，使用本地数据', error)
+      }
+    },
     interact(action: string) {
       if (this.homeData.interactionDone) {
         return null
@@ -163,20 +198,21 @@ export const useHomeStore = defineStore('home', {
         petBubble: bubble,
       }
       this.lastInteractDate = dateKey
+      const interactionEntry: RecordEntry = {
+        id: createRecordId(dateKey, 'interaction'),
+        dateKey,
+        type: 'interaction',
+        badge: '今日互动',
+        title: `完成「${action}」`,
+        content: `今天和 ${this.homeData.solarTerm} 灵宠一起完成了一次陪伴，成长值 +${GROWTH_REWARD}。`,
+      }
       this.recordEntries = [
-        {
-          id: createRecordId(dateKey, 'interaction'),
-          dateKey,
-          type: 'interaction',
-          badge: '今日互动',
-          title: `完成「${action}」`,
-          content: `今天和 ${this.homeData.solarTerm} 灵宠一起完成了一次陪伴，成长值 +${GROWTH_REWARD}。`,
-        },
+        interactionEntry,
         ...milestoneEntries,
         ...this.recordEntries,
       ].slice(0, MAX_RECORD_ENTRIES)
 
-      this.persist()
+      void this.persist()
 
       return `${action}之后，成长值 +${GROWTH_REWARD}。${bubble}`
     },
@@ -185,7 +221,7 @@ export const useHomeStore = defineStore('home', {
         ? this.favoritePetIds.filter((item) => item !== petId)
         : [...this.favoritePetIds, petId]
 
-      this.persist()
+      void this.persist()
     },
     isFavoritePet(petId: string) {
       return this.favoritePetIds.includes(petId)
@@ -215,10 +251,10 @@ export const useHomeStore = defineStore('home', {
         console.warn('[weather] 获取失败，保留上一次天气数据', e)
       }
 
-      this.persist()
+      void this.persist()
     },
-    persist() {
-      uni.setStorageSync(HOME_STORAGE_KEY, {
+    buildPersistPayload(): HomeProfilePayload {
+      return {
         interactionDone: this.homeData.interactionDone,
         growthValue: this.homeData.growthValue,
         streakDays: this.homeData.streakDays,
@@ -227,7 +263,32 @@ export const useHomeStore = defineStore('home', {
         cityName: this.homeData.cityName,
         lastInteractDate: this.lastInteractDate,
         recordEntries: this.recordEntries,
-      })
+      }
+    },
+    persistLocal() {
+      uni.setStorageSync(HOME_STORAGE_KEY, this.buildPersistPayload())
+    },
+    async persist() {
+      const payload = this.buildPersistPayload()
+      this.persistLocal()
+
+      if (!isSupabaseEnabled) {
+        return
+      }
+
+      try {
+        if (!this.cloudUserId) {
+          const userId = await ensureAnonymousUserId()
+          if (!userId) {
+            return
+          }
+          this.cloudUserId = userId
+        }
+
+        await upsertHomeProfile(this.cloudUserId, payload)
+      } catch (error) {
+        console.warn('[supabase] 同步失败，稍后会继续尝试', error)
+      }
     },
   },
 })

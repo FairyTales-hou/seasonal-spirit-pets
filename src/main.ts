@@ -13,7 +13,7 @@ export function createApp() {
 
   useAppStore(pinia).hydrate()
   const homeStore = useHomeStore(pinia)
-  homeStore.hydrate()
+  void homeStore.hydrate()
   homeStore.refreshLiveData()
 
   return {

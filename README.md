@@ -59,6 +59,30 @@ pnpm build:mp-weixin
 pnpm type-check
 ```
 
+## Supabase（可选）
+
+项目已接入“本地优先 + Supabase 同步”模式，用于同步以下用户状态：
+
+- 每日互动状态、成长值、连续天数、灵宠气泡
+- 收藏灵宠列表
+- 陪伴记录（`recordEntries`）
+- 城市名与最后互动日期
+
+### 1) 在 Supabase 执行表结构
+
+把 `supabase/schema.sql` 在 Supabase SQL Editor 执行一次。
+
+### 2) 配置环境变量
+
+在 `.env.local` 添加：
+
+```bash
+VITE_SUPABASE_URL=你的项目URL
+VITE_SUPABASE_ANON_KEY=你的anon key
+```
+
+未配置时会自动回退到纯本地存储模式，不影响运行。
+
 ## 主要页面
 
 - `src/pages/onboarding/index`：进入应用前的欢迎页
@@ -74,11 +98,13 @@ pnpm type-check
 
 ## 数据与状态说明
 
-当前项目主要使用本地 mock 数据驱动界面：
+当前项目仍以本地 mock 内容驱动界面，用户行为状态支持同步到 Supabase：
 
 - `src/mock/home.ts`：首页内容、知识卡、互动反馈、我的页入口配置
 - `src/mock/pets.ts`：灵宠图鉴与详情数据
-- `src/store/home.ts`：首页核心状态与本地持久化
+- `src/store/home.ts`：首页核心状态，本地持久化 + Supabase 同步
+- `src/services/supabase.ts`：Supabase 客户端与匿名登录
+- `src/services/home-profile.ts`：主页状态的云端读写
 - `src/composables/useHome.ts`：页面层复用的 home 数据访问封装
 
 已持久化到本地存储的数据包括：

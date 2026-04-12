@@ -48,7 +48,10 @@ function openPetDetail(pet: PetProfile) {
           :class="{ 'atlas-card--active': pet.solarTerm === homeData.solarTerm, 'atlas-card--locked': !isUnlockedPet(pet) }"
           @click="openPetDetail(pet)"
         >
-          <text class="atlas-card__emoji">{{ isUnlockedPet(pet) ? '🐾' : '🌫️' }}</text>
+          <view class="atlas-card__image-wrap">
+            <image class="atlas-card__image" :src="pet.image" mode="aspectFill" />
+            <view v-if="!isUnlockedPet(pet)" class="atlas-card__image-mask">{{ copy.locked }}</view>
+          </view>
           <text class="atlas-card__name">{{ isUnlockedPet(pet) ? pet.name : copy.locked }}</text>
           <text class="atlas-card__term">{{ pet.solarTerm }}</text>
         </view>
@@ -112,17 +115,31 @@ function openPetDetail(pet: PetProfile) {
   opacity: 0.72;
 }
 
-.atlas-card__emoji {
-  display: inline-flex;
+.atlas-card__image-wrap {
+  position: relative;
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 28rpx;
+  overflow: hidden;
+  border: 1rpx solid rgba(255, 255, 255, 0.66);
+  background: rgba(255, 255, 255, 0.42);
+}
+
+.atlas-card__image {
+  width: 100%;
+  height: 100%;
+}
+
+.atlas-card__image-mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 20rpx;
-  background: rgba(255, 255, 255, 0.42);
-  border: 1rpx solid rgba(255, 255, 255, 0.62);
-  font-size: 30rpx;
-  color: $color-primary;
+  font-size: 20rpx;
+  color: #fff;
+  background: rgba(40, 46, 58, 0.48);
+  backdrop-filter: blur(2rpx);
 }
 
 .atlas-card__name {

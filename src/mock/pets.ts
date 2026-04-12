@@ -1,6 +1,8 @@
 import type { PetProfile } from '@/types/pet'
 
-export const PETS: PetProfile[] = [
+type BasePetProfile = Omit<PetProfile, 'image'>
+
+const PETS_BASE: BasePetProfile[] = [
   { id: 'lichun', solarTerm: '立春', name: '芽芽', spirit: '小鹿灵', colors: ['嫩绿', '浅黄'], elements: ['新芽', '微风', '燕子'], personality: ['好奇', '轻快', '苏醒'], quote: '春天刚刚醒来，我们也慢慢发芽吧。', adviceStyle: '适合提醒早睡早起、轻运动、情绪舒展', season: 'spring', unlocked: true, mood: 'sunny' },
   { id: 'yushui', solarTerm: '雨水', name: '霖霖', spirit: '水团精灵', colors: ['青蓝', '雾灰'], elements: ['细雨', '溪流', '水珠'], personality: ['温柔', '安静', '湿润'], quote: '空气里都是柔软的水意，记得别着凉。', adviceStyle: '适合提醒防潮、带伞、脾胃调养', season: 'spring', unlocked: true, mood: 'rainy' },
   { id: 'jingzhe', solarTerm: '惊蛰', name: '惊惊', spirit: '小狐鼬', colors: ['草绿', '琥珀黄'], elements: ['春雷', '破土', '小虫鸣'], personality: ['机灵', '跳跃', '有活力'], quote: '雷声一响，万物都想往前跑一跑。', adviceStyle: '适合提醒活动身体、调节春困', season: 'spring', unlocked: true, mood: 'sunny' },
@@ -26,3 +28,8 @@ export const PETS: PetProfile[] = [
   { id: 'xiaohan', solarTerm: '小寒', name: '寒米', spirit: '冰晶仓鼠', colors: ['冰蓝', '米白'], elements: ['冷空气', '窗花', '厚围巾'], personality: ['谨慎', '细小', '耐心'], quote: '已经很冷啦，别硬扛，暖一点比较好。', adviceStyle: '适合提醒防寒、防风、规律饮食', season: 'winter', unlocked: false, mood: 'sleepy' },
   { id: 'dahan', solarTerm: '大寒', name: '岁岁', spirit: '极夜狼崽', colors: ['墨蓝', '银白'], elements: ['岁末', '寒极', '年味将近'], personality: ['安静', '坚定', '有守护感'], quote: '最冷的时候快过去了，新的春天也在路上。', adviceStyle: '适合提醒御寒、收尾、迎新准备', season: 'winter', unlocked: false, mood: 'calm' },
 ]
+
+export const PETS: PetProfile[] = PETS_BASE.map((pet, index) => ({
+  ...pet,
+  image: `/static/pets/${index + 1}.png`,
+}))

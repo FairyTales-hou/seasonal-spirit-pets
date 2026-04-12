@@ -22,7 +22,9 @@ function handleToggleFavorite() {
 <template>
   <view class="container">
     <view class="card pet section-gap">
-      <view class="pet__cover">🐾</view>
+      <view class="pet__cover">
+        <image class="pet__cover-image" :src="pet.image" mode="aspectFill" />
+      </view>
       <text class="pet__name">{{ pet.name }} · {{ pet.solarTerm }}</text>
       <text class="pet__spirit">原型灵兽：{{ pet.spirit }}</text>
       <text class="pet__quote">{{ pet.quote }}</text>
@@ -58,15 +60,20 @@ function handleToggleFavorite() {
 }
 
 .pet__cover {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 200rpx;
   height: 200rpx;
   margin: 0 auto 24rpx;
   border-radius: 50%;
-  background: radial-gradient(circle at top, #fff7ea 0%, #eef4e5 100%);
-  font-size: 96rpx;
+  overflow: hidden;
+  border: 2rpx solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    0 12rpx 36rpx rgba(26, 44, 80, 0.14),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.85);
+}
+
+.pet__cover-image {
+  width: 100%;
+  height: 100%;
 }
 
 .pet__favorite-button {

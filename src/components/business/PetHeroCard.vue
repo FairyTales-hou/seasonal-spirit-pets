@@ -18,7 +18,7 @@ defineProps<{
       <view class="hero__orb">
         <view class="hero__orb-ring hero__orb-ring--outer" />
         <view class="hero__orb-ring hero__orb-ring--inner" />
-        <text class="hero__emoji">🐾</text>
+        <image class="hero__image" :src="pet.image" mode="aspectFill" />
       </view>
     </view>
     <view class="hero__bubble">{{ bubble }}</view>
@@ -87,15 +87,11 @@ defineProps<{
   background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 72%);
 }
 
-.hero__emoji {
+.hero__image {
   position: relative;
   z-index: 1;
-  font-size: 122rpx;
-  font-weight: 700;
-  color: $color-primary;
-  text-shadow:
-    0 0 20rpx rgba(255, 255, 255, 0.74),
-    0 10rpx 24rpx rgba(73, 122, 179, 0.24);
+  width: 100%;
+  height: 100%;
 }
 
 .hero__bubble {
