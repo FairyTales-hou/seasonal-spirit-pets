@@ -6,6 +6,13 @@ export interface SuggestionSummary {
   content: string
 }
 
+export interface AlmanacSummary {
+  lunarText: string
+  suitableActivities: string[]
+  unsuitableActivities: string[]
+  seasonalHint: string
+}
+
 export interface HomeData {
   dateText: string
   solarTerm: string
@@ -16,10 +23,15 @@ export interface HomeData {
   petId: string
   petBubble: string
   suggestions: SuggestionSummary[]
+  almanac: AlmanacSummary | null
   growthValue: number
   nextLevelGrowth: number
   streakDays: number
   interactionDone: boolean
+  reminderEnabled: boolean
+  dailyReminderEnabled: boolean
+  solarTermReminderEnabled: boolean
+  reminderTime: string
 }
 
 export interface DetailedSuggestionSection {
@@ -41,5 +53,5 @@ export interface RecordEntry {
 export interface MineActionItem {
   title: string
   description: string
-  available: boolean
+  route: string
 }

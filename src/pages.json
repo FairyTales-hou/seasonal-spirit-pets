@@ -55,6 +55,36 @@
       }
     },
     {
+      "path": "pages/settings/city",
+      "style": {
+        "navigationBarTitleText": "城市设置"
+      }
+    },
+    {
+      "path": "pages/settings/reminder",
+      "style": {
+        "navigationBarTitleText": "提醒设置"
+      }
+    },
+    {
+      "path": "pages/feedback/index",
+      "style": {
+        "navigationBarTitleText": "意见反馈"
+      }
+    },
+    {
+      "path": "pages/legal/privacy",
+      "style": {
+        "navigationBarTitleText": "隐私政策"
+      }
+    },
+    {
+      "path": "pages/legal/terms",
+      "style": {
+        "navigationBarTitleText": "用户协议"
+      }
+    },
+    {
       "path": "pages/about/index",
       "style": {
         "navigationBarTitleText": "关于节气灵宠"

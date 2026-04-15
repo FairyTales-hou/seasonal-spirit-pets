@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import AppHeader from '@/components/common/AppHeader.vue'
 import { useHome } from '@/composables/useHome'
-import { ROUTES } from '@/constants/routes'
 
 const { mineActions, homeData } = useHome()
 
@@ -15,24 +14,8 @@ const copy = {
   descSuffix: '天，今天也适合慢一点照顾自己。',
 }
 
-function handleAction(index: number, available: boolean) {
-  if (!available) {
-    return
-  }
-
-  if (index === 0) {
-    uni.navigateTo({ url: ROUTES.favorites })
-    return
-  }
-
-  if (index === 1) {
-    uni.navigateTo({ url: ROUTES.records })
-    return
-  }
-
-  if (index === mineActions.length - 1) {
-    uni.navigateTo({ url: ROUTES.about })
-  }
+function handleAction(route: string) {
+  uni.navigateTo({ url: route })
 }
 </script>
 
@@ -48,11 +31,10 @@ function handleAction(index: number, available: boolean) {
 
     <view class="actions section-gap">
       <view
-        v-for="(item, index) in mineActions"
+        v-for="item in mineActions"
         :key="item.title"
         class="actions__item card"
-        :class="{ 'actions__item--disabled': !item.available }"
-        @click="handleAction(index, item.available)"
+        @click="handleAction(item.route)"
       >
         <view>
           <text class="actions__text">{{ item.title }}</text>
@@ -108,9 +90,6 @@ function handleAction(index: number, available: boolean) {
   padding: 28rpx 24rpx;
 }
 
-.actions__item--disabled {
-  opacity: 0.58;
-}
 
 .actions__text {
   display: block;

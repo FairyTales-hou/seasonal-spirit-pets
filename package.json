@@ -24,6 +24,7 @@
     "@supabase/storage-js": "^2.103.0",
     "@supabase/supabase-js": "^2.103.0",
     "iceberg-js": "^0.8.1",
+    "lunar-javascript": "^1.7.4",
     "pinia": "^2.1.7",
     "vue": "^3.4.21"
   },

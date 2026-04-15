@@ -14,7 +14,7 @@ export function createApp() {
   useAppStore(pinia).hydrate()
   const homeStore = useHomeStore(pinia)
   void homeStore.hydrate()
-  homeStore.refreshLiveData()
+  void homeStore.refreshLiveData()
 
   return {
     app,

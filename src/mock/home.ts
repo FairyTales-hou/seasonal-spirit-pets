@@ -1,3 +1,4 @@
+import { ROUTES } from '@/constants/routes'
 import type { DetailedSuggestionSection, HomeData, MineActionItem } from '@/types/home'
 
 export const HOME_DATA: HomeData = {
@@ -14,10 +15,20 @@ export const HOME_DATA: HomeData = {
     { type: 'food', title: '今天吃点什么', content: '可以吃些清爽、温润的食物，别太油腻。' },
     { type: 'reminder', title: '今天的小提醒', content: '如果有春困，不如起身活动一下，晒晒太阳。' },
   ],
+  almanac: {
+    lunarText: '乙巳年二月初八',
+    suitableActivities: ['出行', '整理', '祭祀'],
+    unsuitableActivities: ['争执', '动土', '熬夜'],
+    seasonalHint: '春分时节，宜做轻整理，也适合出门透透气。',
+  },
   growthValue: 24,
   nextLevelGrowth: 40,
   streakDays: 3,
   interactionDone: false,
+  reminderEnabled: true,
+  dailyReminderEnabled: true,
+  solarTermReminderEnabled: true,
+  reminderTime: '20:30',
 }
 
 export const DETAILED_SUGGESTIONS: DetailedSuggestionSection[] = [
@@ -50,10 +61,10 @@ export const INTERACTION_BUBBLES = [
 ]
 
 export const MINE_ACTIONS: MineActionItem[] = [
-  { title: '我的收藏', description: '把喜欢的灵宠先收藏在这里', available: true },
-  { title: '连续陪伴记录', description: '看看这段时间和灵宠的陪伴状态', available: true },
-  { title: '城市设置', description: '后续可切换城市与天气来源', available: false },
-  { title: '提醒设置', description: '后续可设置节气提醒和互动提醒', available: false },
-  { title: '意见反馈', description: '当前先做静态 MVP，后续会开放反馈入口', available: false },
-  { title: '关于节气灵宠', description: '了解这个小项目想做成什么样子', available: true },
+  { title: '我的收藏', description: '把喜欢的灵宠先收藏在这里', route: ROUTES.favorites },
+  { title: '连续陪伴记录', description: '看看这段时间和灵宠的陪伴状态', route: ROUTES.records },
+  { title: '城市设置', description: '后续可切换城市与天气来源', route: ROUTES.citySettings },
+  { title: '提醒设置', description: '后续可设置节气提醒和互动提醒', route: ROUTES.reminderSettings },
+  { title: '意见反馈', description: '当前先做静态 MVP，后续会开放反馈入口', route: ROUTES.feedback },
+  { title: '关于节气灵宠', description: '了解这个小项目想做成什么样子', route: ROUTES.about },
 ]

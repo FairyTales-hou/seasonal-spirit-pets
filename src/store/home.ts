@@ -5,6 +5,7 @@ import { getSolarTermContent } from '@/mock/solar-term-content'
 import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
 import { getCity } from '@/utils/location'
 import { getWeatherSummary } from '@/services/weather'
+import { getAlmanacContent } from '@/services/almanac'
 import { ensureAnonymousUserId, isSupabaseEnabled } from '@/services/supabase'
 import { fetchHomeProfile, upsertHomeProfile, type HomeProfilePayload } from '@/services/home-profile'
 
@@ -22,6 +23,10 @@ interface HomeStorageState {
   cityName: string
   lastInteractDate: string
   recordEntries: RecordEntry[]
+  reminderEnabled: boolean
+  dailyReminderEnabled: boolean
+  solarTermReminderEnabled: boolean
+  reminderTime: string
 }
 
 interface HydrateResult extends Partial<HomeStorageState> { }
@@ -110,8 +115,27 @@ export const useHomeStore = defineStore('home', {
         this.homeData.cityName = savedState.cityName
       }
 
+      if (typeof savedState?.reminderEnabled === 'boolean') {
+        this.homeData.reminderEnabled = savedState.reminderEnabled
+      }
+
+      if (typeof savedState?.dailyReminderEnabled === 'boolean') {
+        this.homeData.dailyReminderEnabled = savedState.dailyReminderEnabled
+      }
+
+      if (typeof savedState?.solarTermReminderEnabled === 'boolean') {
+        this.homeData.solarTermReminderEnabled = savedState.solarTermReminderEnabled
+      }
+
+      if (typeof savedState?.reminderTime === 'string' && savedState.reminderTime) {
+        this.homeData.reminderTime = savedState.reminderTime
+      }
+
       const todayKey = toDateKey(new Date())
       const lastDate = typeof savedState?.lastInteractDate === 'string' ? savedState.lastInteractDate : ''
+      if (lastDate) {
+        this.lastInteractDate = lastDate
+      }
       if (lastDate && lastDate !== todayKey) {
         this.homeData.interactionDone = false
         const yesterday = new Date()
@@ -119,8 +143,6 @@ export const useHomeStore = defineStore('home', {
         if (lastDate !== toDateKey(yesterday)) {
           this.homeData.streakDays = 0
         }
-      } else if (lastDate) {
-        this.lastInteractDate = lastDate
       }
 
       const favoritePetIds = savedState?.favoritePetIds
@@ -158,6 +180,44 @@ export const useHomeStore = defineStore('home', {
       } catch (error) {
         console.warn('[supabase] hydrate 失败，使用本地数据', error)
       }
+    },
+    async saveCity(cityName: string) {
+      const nextCityName = cityName.trim()
+      if (!nextCityName) {
+        throw new Error('城市不能为空')
+      }
+
+      this.homeData.cityName = nextCityName
+      await this.persist()
+    },
+    async refreshWeatherByCity() {
+      try {
+        const weather = await getWeatherSummary({
+          location: this.homeData.cityName,
+          fallbackCityName: this.homeData.cityName,
+        })
+        const displayCity = weather.cityName || this.homeData.cityName
+        this.homeData.cityName = displayCity
+        this.homeData.weatherSummary = `${displayCity} · ${weather.text} ${weather.temp}°C`
+        await this.persist()
+        return true
+      } catch (error) {
+        console.warn('[weather] 手动城市刷新失败，保留当前城市', error)
+        await this.persist()
+        return false
+      }
+    },
+    async saveReminderSettings(payload: {
+      reminderEnabled: boolean
+      dailyReminderEnabled: boolean
+      solarTermReminderEnabled: boolean
+      reminderTime: string
+    }) {
+      this.homeData.reminderEnabled = payload.reminderEnabled
+      this.homeData.dailyReminderEnabled = payload.dailyReminderEnabled
+      this.homeData.solarTermReminderEnabled = payload.solarTermReminderEnabled
+      this.homeData.reminderTime = payload.reminderTime
+      await this.persist()
     },
     interact(action: string) {
       if (this.homeData.interactionDone) {
@@ -237,6 +297,13 @@ export const useHomeStore = defineStore('home', {
       this.homeData.daysUntilNextTerm = daysUntilNext
       this.homeData.suggestions = getSolarTermContent(term.id).suggestions
 
+      try {
+        this.homeData.almanac = getAlmanacContent(now, term.name)
+      } catch (error) {
+        console.warn('[almanac] 生成失败，隐藏今日黄历卡', error)
+        this.homeData.almanac = null
+      }
+
       if (this.recordEntries.length === 0) {
         this.recordEntries = [createSeedRecord(toDateKey(now), term.name)]
       }
@@ -263,6 +330,10 @@ export const useHomeStore = defineStore('home', {
         cityName: this.homeData.cityName,
         lastInteractDate: this.lastInteractDate,
         recordEntries: this.recordEntries,
+        reminderEnabled: this.homeData.reminderEnabled,
+        dailyReminderEnabled: this.homeData.dailyReminderEnabled,
+        solarTermReminderEnabled: this.homeData.solarTermReminderEnabled,
+        reminderTime: this.homeData.reminderTime,
       }
     },
     persistLocal() {

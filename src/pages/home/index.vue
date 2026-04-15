@@ -3,6 +3,7 @@ import { onShow } from '@dcloudio/uni-app'
 import AppHeader from '@/components/common/AppHeader.vue'
 import SectionTitle from '@/components/common/SectionTitle.vue'
 import PetHeroCard from '@/components/business/PetHeroCard.vue'
+import AlmanacCard from '@/components/business/AlmanacCard.vue'
 import TipSummaryCard from '@/components/business/TipSummaryCard.vue'
 import GrowthPanel from '@/components/business/GrowthPanel.vue'
 import { useHome } from '@/composables/useHome'
@@ -52,6 +53,10 @@ onShow(() => {
 
     <view class="section-gap" @click="goTo(ROUTES.petDetail)">
       <PetHeroCard :pet="currentPet" :bubble="homeData.petBubble" :weather-summary="homeData.weatherSummary" />
+    </view>
+
+    <view v-if="homeData.almanac" class="section-gap">
+      <AlmanacCard :almanac="homeData.almanac" />
     </view>
 
     <view class="section-gap">

@@ -10,6 +10,10 @@ export interface HomeProfilePayload {
   cityName: string
   lastInteractDate: string
   recordEntries: RecordEntry[]
+  reminderEnabled: boolean
+  dailyReminderEnabled: boolean
+  solarTermReminderEnabled: boolean
+  reminderTime: string
 }
 
 interface HomeProfileRow {
@@ -21,6 +25,10 @@ interface HomeProfileRow {
   city_name: string
   last_interact_date: string
   record_entries: RecordEntry[]
+  reminder_enabled?: boolean
+  daily_reminder_enabled?: boolean
+  solar_term_reminder_enabled?: boolean
+  reminder_time?: string
 }
 
 const TABLE_NAME = 'home_profiles'
@@ -35,6 +43,10 @@ function toPayload(row: HomeProfileRow): HomeProfilePayload {
     cityName: row.city_name,
     lastInteractDate: row.last_interact_date,
     recordEntries: Array.isArray(row.record_entries) ? row.record_entries : [],
+    reminderEnabled: typeof row.reminder_enabled === 'boolean' ? row.reminder_enabled : true,
+    dailyReminderEnabled: typeof row.daily_reminder_enabled === 'boolean' ? row.daily_reminder_enabled : true,
+    solarTermReminderEnabled: typeof row.solar_term_reminder_enabled === 'boolean' ? row.solar_term_reminder_enabled : true,
+    reminderTime: typeof row.reminder_time === 'string' ? row.reminder_time : '20:30',
   }
 }
 
@@ -48,6 +60,10 @@ function toRow(payload: HomeProfilePayload): HomeProfileRow {
     city_name: payload.cityName,
     last_interact_date: payload.lastInteractDate,
     record_entries: payload.recordEntries,
+    reminder_enabled: payload.reminderEnabled,
+    daily_reminder_enabled: payload.dailyReminderEnabled,
+    solar_term_reminder_enabled: payload.solarTermReminderEnabled,
+    reminder_time: payload.reminderTime,
   }
 }
 

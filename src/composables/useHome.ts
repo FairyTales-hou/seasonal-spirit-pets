@@ -33,5 +33,8 @@ export function useHome() {
     mineActions: MINE_ACTIONS,
     interact: homeStore.interact,
     toggleFavoritePet: homeStore.toggleFavoritePet,
+    saveCity: homeStore.saveCity,
+    refreshWeatherByCity: homeStore.refreshWeatherByCity,
+    saveReminderSettings: homeStore.saveReminderSettings,
   }
 }

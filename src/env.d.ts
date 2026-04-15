@@ -1,5 +1,7 @@
 /// <reference types="@dcloudio/types" />
 
+declare module 'lunar-javascript'
+
 declare module '@dcloudio/vite-plugin-uni' {
   import type { Plugin } from 'vite'
 
