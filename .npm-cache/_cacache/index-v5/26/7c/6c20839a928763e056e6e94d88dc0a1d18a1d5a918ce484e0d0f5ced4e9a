@@ -1,0 +1,2 @@
+
+26bbe69104bb4b388443a305c44943c669424dd4	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/agent-base","integrity":null,"time":1776677328852,"size":"262","metadata":{"time":1776677328852,"url":"http://registry.npmmirror.com/agent-base","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:49 GMT","location":"https://registry.npmmirror.com/agent-base"},"options":{"compress":true},"status":301}}

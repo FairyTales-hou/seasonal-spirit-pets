@@ -1,0 +1,2 @@
+
+967ba2bbc1bc594d133b345992e7984f8d8572c6	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/signal-exit","integrity":null,"time":1776756528195,"size":"262","metadata":{"time":1776756528195,"url":"http://registry.npmmirror.com/signal-exit","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/signal-exit"},"options":{"compress":true},"status":301}}

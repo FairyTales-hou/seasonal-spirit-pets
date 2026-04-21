@@ -41,7 +41,33 @@ alter table public.home_profiles
   add column if not exists reminder_enabled boolean not null default true,
   add column if not exists daily_reminder_enabled boolean not null default true,
   add column if not exists solar_term_reminder_enabled boolean not null default true,
-  add column if not exists reminder_time text not null default '20:30';
+  add column if not exists reminder_time text not null default '20:30',
+  add column if not exists reminder_subscription_status text not null default 'unknown',
+  add column if not exists reminder_subscription_channel text not null default 'none',
+  add column if not exists reminder_subscription_updated_at text not null default '';
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'home_profiles_reminder_subscription_status_check'
+  ) then
+    alter table public.home_profiles
+      add constraint home_profiles_reminder_subscription_status_check
+      check (reminder_subscription_status in ('unknown', 'granted', 'denied', 'unsupported'));
+  end if;
+
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'home_profiles_reminder_subscription_channel_check'
+  ) then
+    alter table public.home_profiles
+      add constraint home_profiles_reminder_subscription_channel_check
+      check (reminder_subscription_channel in ('none', 'wechat-subscribe', 'web-notification'));
+  end if;
+end $$;
 
 create table if not exists public.feedback_entries (
   id uuid primary key default gen_random_uuid(),
@@ -64,3 +90,52 @@ create policy "feedback_entries_insert_own"
 on public.feedback_entries
 for insert
 with check (auth.uid() = user_id);
+
+create table if not exists public.reminder_dispatch_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  dispatch_date text not null,
+  dispatch_time text not null,
+  reminder_kind text not null,
+  status text not null default 'pending',
+  response_body text not null default '',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create unique index if not exists reminder_dispatch_logs_once_per_day_idx
+  on public.reminder_dispatch_logs(user_id, dispatch_date, reminder_kind);
+
+create index if not exists reminder_dispatch_logs_created_at_idx
+  on public.reminder_dispatch_logs(created_at desc);
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'reminder_dispatch_logs_reminder_kind_check'
+  ) then
+    alter table public.reminder_dispatch_logs
+      add constraint reminder_dispatch_logs_reminder_kind_check
+      check (reminder_kind in ('daily', 'solar-term'));
+  end if;
+
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'reminder_dispatch_logs_status_check'
+  ) then
+    alter table public.reminder_dispatch_logs
+      add constraint reminder_dispatch_logs_status_check
+      check (status in ('pending', 'sent', 'failed'));
+  end if;
+end $$;
+
+alter table public.reminder_dispatch_logs enable row level security;
+
+drop policy if exists "reminder_dispatch_logs_select_own" on public.reminder_dispatch_logs;
+create policy "reminder_dispatch_logs_select_own"
+on public.reminder_dispatch_logs
+for select
+using (auth.uid() = user_id);

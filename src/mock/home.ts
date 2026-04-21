@@ -29,6 +29,9 @@ export const HOME_DATA: HomeData = {
   dailyReminderEnabled: true,
   solarTermReminderEnabled: true,
   reminderTime: '20:30',
+  reminderSubscriptionStatus: 'unknown',
+  reminderSubscriptionChannel: 'none',
+  reminderSubscriptionUpdatedAt: '',
 }
 
 export const DETAILED_SUGGESTIONS: DetailedSuggestionSection[] = [

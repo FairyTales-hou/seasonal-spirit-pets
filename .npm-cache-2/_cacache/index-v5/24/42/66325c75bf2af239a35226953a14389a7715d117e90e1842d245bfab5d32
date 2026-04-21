@@ -1,0 +1,2 @@
+
+b4c8d238b126cdecdb026872e3103ac57b3c89c7	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/chownr","integrity":null,"time":1776756527891,"size":"262","metadata":{"time":1776756527890,"url":"http://registry.npmmirror.com/chownr","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/chownr"},"options":{"compress":true},"status":301}}

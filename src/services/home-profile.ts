@@ -1,5 +1,6 @@
 import { supabase } from '@/services/supabase'
 import type { RecordEntry } from '@/types/home'
+import type { ReminderSubscriptionChannel, ReminderSubscriptionStatus } from '@/types/home'
 
 export interface HomeProfilePayload {
   interactionDone: boolean
@@ -14,6 +15,9 @@ export interface HomeProfilePayload {
   dailyReminderEnabled: boolean
   solarTermReminderEnabled: boolean
   reminderTime: string
+  reminderSubscriptionStatus: ReminderSubscriptionStatus
+  reminderSubscriptionChannel: ReminderSubscriptionChannel
+  reminderSubscriptionUpdatedAt: string
 }
 
 interface HomeProfileRow {
@@ -29,6 +33,9 @@ interface HomeProfileRow {
   daily_reminder_enabled?: boolean
   solar_term_reminder_enabled?: boolean
   reminder_time?: string
+  reminder_subscription_status?: ReminderSubscriptionStatus
+  reminder_subscription_channel?: ReminderSubscriptionChannel
+  reminder_subscription_updated_at?: string
 }
 
 const TABLE_NAME = 'home_profiles'
@@ -47,6 +54,18 @@ function toPayload(row: HomeProfileRow): HomeProfilePayload {
     dailyReminderEnabled: typeof row.daily_reminder_enabled === 'boolean' ? row.daily_reminder_enabled : true,
     solarTermReminderEnabled: typeof row.solar_term_reminder_enabled === 'boolean' ? row.solar_term_reminder_enabled : true,
     reminderTime: typeof row.reminder_time === 'string' ? row.reminder_time : '20:30',
+    reminderSubscriptionStatus:
+      row.reminder_subscription_status === 'granted' ||
+      row.reminder_subscription_status === 'denied' ||
+      row.reminder_subscription_status === 'unsupported'
+        ? row.reminder_subscription_status
+        : 'unknown',
+    reminderSubscriptionChannel:
+      row.reminder_subscription_channel === 'wechat-subscribe' || row.reminder_subscription_channel === 'web-notification'
+        ? row.reminder_subscription_channel
+        : 'none',
+    reminderSubscriptionUpdatedAt:
+      typeof row.reminder_subscription_updated_at === 'string' ? row.reminder_subscription_updated_at : '',
   }
 }
 
@@ -64,6 +83,9 @@ function toRow(payload: HomeProfilePayload): HomeProfileRow {
     daily_reminder_enabled: payload.dailyReminderEnabled,
     solar_term_reminder_enabled: payload.solarTermReminderEnabled,
     reminder_time: payload.reminderTime,
+    reminder_subscription_status: payload.reminderSubscriptionStatus,
+    reminder_subscription_channel: payload.reminderSubscriptionChannel,
+    reminder_subscription_updated_at: payload.reminderSubscriptionUpdatedAt,
   }
 }
 

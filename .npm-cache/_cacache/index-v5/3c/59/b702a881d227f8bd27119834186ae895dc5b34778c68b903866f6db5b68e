@@ -1,0 +1,2 @@
+
+338c93efa9df0a9ce8f25c4b25c990376645d756	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/npm-normalize-package-bin","integrity":null,"time":1776677328807,"size":"262","metadata":{"time":1776677328807,"url":"http://registry.npmmirror.com/npm-normalize-package-bin","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:48 GMT","location":"https://registry.npmmirror.com/npm-normalize-package-bin"},"options":{"compress":true},"status":301}}

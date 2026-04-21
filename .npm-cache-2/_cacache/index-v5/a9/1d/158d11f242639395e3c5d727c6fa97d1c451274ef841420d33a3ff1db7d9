@@ -1,0 +1,2 @@
+
+6c6f54eb389021392e56dd3a2f886a5326f8469d	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/yallist","integrity":null,"time":1776756527921,"size":"262","metadata":{"time":1776756527921,"url":"http://registry.npmmirror.com/yallist","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/yallist"},"options":{"compress":true},"status":301}}

@@ -1,0 +1,2 @@
+
+be4ed6f2d120b9a2560749bb16b1e716c2f366ac	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/node-domexception","integrity":null,"time":1776756528380,"size":"262","metadata":{"time":1776756528380,"url":"http://registry.npmmirror.com/node-domexception","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/node-domexception"},"options":{"compress":true},"status":301}}

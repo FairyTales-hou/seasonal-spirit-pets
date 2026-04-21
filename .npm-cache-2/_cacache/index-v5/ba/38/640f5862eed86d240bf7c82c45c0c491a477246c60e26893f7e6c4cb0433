@@ -1,0 +1,2 @@
+
+d76a7fddb9361f22679b831ae5750a0cd28de802	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/minizlib","integrity":null,"time":1776756527914,"size":"262","metadata":{"time":1776756527914,"url":"http://registry.npmmirror.com/minizlib","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/minizlib"},"options":{"compress":true},"status":301}}

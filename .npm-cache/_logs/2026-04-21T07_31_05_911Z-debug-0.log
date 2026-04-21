@@ -1,0 +1,120 @@
+0 verbose cli C:\dev\nodejs\node.exe C:\dev\nvm\v20.19.4\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.19.4
+3 silly config load:file:C:\dev\nvm\v20.19.4\node_modules\npm\npmrc
+4 silly config load:file:D:\ctsi\practice\seasonal-spirit-pets\.npmrc
+5 silly config load:file:C:\Users\13592\.npmrc
+6 silly config load:file:C:\dev\nodejs\etc\npmrc
+7 verbose title npm exec supabase secrets list --project-ref bkxivnvduiwkklaumrvy
+8 verbose argv "exec" "--" "supabase" "secrets" "list" "--project-ref" "bkxivnvduiwkklaumrvy"
+9 verbose logfile logs-max:10 dir:D:\ctsi\practice\seasonal-spirit-pets\.npm-cache\_logs\2026-04-21T07_31_05_911Z-
+10 verbose logfile D:\ctsi\practice\seasonal-spirit-pets\.npm-cache\_logs\2026-04-21T07_31_05_911Z-debug-0.log
+11 silly logfile start cleaning logs, removing 1 files
+12 silly logfile done cleaning log files
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 http fetch GET 200 https://registry.npmmirror.com/supabase 263ms (cache revalidated)
+15 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+16 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+17 verbose shrinkwrap failed to load node_modules/.package-lock.json out of date, updated: node_modules
+18 warn exec The following package was not found and will be installed: supabase@2.93.0
+19 silly idealTree buildDeps
+20 silly fetch manifest supabase@2.93.0
+21 silly packumentCache full:http://registry.npmmirror.com/supabase cache-miss
+22 http fetch GET 200 https://registry.npmmirror.com/supabase 51ms (cache hit)
+23 silly packumentCache full:http://registry.npmmirror.com/supabase set size:2752999 disposed:false
+24 silly placeDep ROOT supabase@2.93.0 REPLACE for:  want: 2.93.0
+25 silly reify mark retired [
+25 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\supabase',
+25 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase',
+25 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase.cmd',
+25 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase.ps1'
+25 silly reify ]
+26 silly reify moves {
+26 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\supabase': 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.supabase-pjWIeSZ2',
+26 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase': 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\.supabase-WWnd4feW',
+26 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase.cmd': 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\.supabase.cmd-GAI8BGbL',
+26 silly reify   'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\supabase.ps1': 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\.bin\\.supabase.ps1-GXO54krP'
+26 silly reify }
+27 silly audit bulk request {
+27 silly audit   '@isaacs/fs-minipass': [ '4.0.1' ],
+27 silly audit   'agent-base': [ '9.0.0' ],
+27 silly audit   'bin-links': [ '6.0.0' ],
+27 silly audit   chownr: [ '3.0.0' ],
+27 silly audit   'cmd-shim': [ '8.0.0' ],
+27 silly audit   'data-uri-to-buffer': [ '4.0.1' ],
+27 silly audit   debug: [ '4.4.3' ],
+27 silly audit   'fetch-blob': [ '3.2.0' ],
+27 silly audit   'formdata-polyfill': [ '4.0.10' ],
+27 silly audit   'https-proxy-agent': [ '9.0.0' ],
+27 silly audit   minipass: [ '7.1.3' ],
+27 silly audit   minizlib: [ '3.1.0' ],
+27 silly audit   ms: [ '2.1.3' ],
+27 silly audit   'node-domexception': [ '1.0.0' ],
+27 silly audit   'node-fetch': [ '3.3.2' ],
+27 silly audit   'npm-normalize-package-bin': [ '5.0.0' ],
+27 silly audit   'proc-log': [ '6.1.0' ],
+27 silly audit   'read-cmd-shim': [ '6.0.0' ],
+27 silly audit   'signal-exit': [ '4.1.0' ],
+27 silly audit   tar: [ '7.5.13' ],
+27 silly audit   'web-streams-polyfill': [ '3.3.3' ],
+27 silly audit   'write-file-atomic': [ '7.0.1' ],
+27 silly audit   yallist: [ '5.0.0' ],
+27 silly audit   supabase: [ '2.93.0' ]
+27 silly audit }
+28 info run supabase@2.93.0 postinstall node_modules/supabase node scripts/postinstall.js
+29 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/advisories/bulk 151ms (cache skip)
+30 silly audit bulk request failed [object Object]
+31 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/audits/quick 64ms (cache skip)
+32 verbose audit error HttpErrorGeneral: 404 Not Found - POST https://registry.npmmirror.com/-/npm/v1/security/audits/quick - [NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet
+32 verbose audit error     at C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\npm-registry-fetch\lib\check-response.js:95:15
+32 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+32 verbose audit error     at async [getReport] (C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:336:21)
+32 verbose audit error     at async AuditReport.run (C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:106:19) {
+32 verbose audit error   headers: [Object: null prototype] {
+32 verbose audit error     server: [ 'Tengine' ],
+32 verbose audit error     date: [ 'Tue, 21 Apr 2026 07:31:11 GMT' ],
+32 verbose audit error     'content-type': [ 'application/json' ],
+32 verbose audit error     'transfer-encoding': [ 'chunked' ],
+32 verbose audit error     connection: [ 'keep-alive' ],
+32 verbose audit error     'strict-transport-security': [ 'max-age=5184000' ],
+32 verbose audit error     via: [ 'kunlun7.cn9398[,404666]' ],
+32 verbose audit error     'timing-allow-origin': [ '*' ],
+32 verbose audit error     eagleid: [ '968bf10e17767566715625029e' ],
+32 verbose audit error     'x-fetch-attempts': [ '1' ],
+32 verbose audit error     'x-local-cache-status': [ 'skip' ]
+32 verbose audit error   },
+32 verbose audit error   statusCode: 404,
+32 verbose audit error   code: 'E404',
+32 verbose audit error   method: 'POST',
+32 verbose audit error   uri: 'https://registry.npmmirror.com/-/npm/v1/security/audits/quick',
+32 verbose audit error   body: {
+32 verbose audit error     error: '[NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet'
+32 verbose audit error   },
+32 verbose audit error   pkgid: undefined
+32 verbose audit error }
+33 silly audit error [object Object]
+34 silly audit report null
+35 info run supabase@2.93.0 postinstall { code: 13, signal: null }
+36 warn cleanup Failed to remove some directories [
+36 warn cleanup   [
+36 warn cleanup     'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\supabase',
+36 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\ctsi\practice\seasonal-spirit-pets\.npm-cache\_npx\aa8e5c70f9d8d161\node_modules\supabase'] {
+36 warn cleanup       errno: -4048,
+36 warn cleanup       code: 'EPERM',
+36 warn cleanup       syscall: 'rmdir',
+36 warn cleanup       path: 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache\\_npx\\aa8e5c70f9d8d161\\node_modules\\supabase'
+36 warn cleanup     }
+36 warn cleanup   ]
+36 warn cleanup ]
+37 silly unfinished npm timer reify 1776756670737
+38 silly unfinished npm timer reify:build 1776756670870
+39 silly unfinished npm timer build 1776756670870
+40 silly unfinished npm timer build:deps 1776756670870
+41 silly unfinished npm timer build:run:postinstall 1776756670872
+42 silly unfinished npm timer build:run:postinstall:node_modules/supabase 1776756670873
+43 verbose cwd D:\ctsi\practice\seasonal-spirit-pets
+44 verbose os Windows_NT 10.0.26200
+45 verbose node v20.19.4
+46 verbose npm  v10.8.2
+47 verbose exit 13
+48 verbose code 13

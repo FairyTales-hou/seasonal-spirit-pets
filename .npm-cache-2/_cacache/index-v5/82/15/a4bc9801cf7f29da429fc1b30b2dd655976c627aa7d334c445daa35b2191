@@ -1,0 +1,2 @@
+
+e87ff17628c4a57e6cb1c2d1e751576b583fb287	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/read-cmd-shim","integrity":null,"time":1776756527854,"size":"262","metadata":{"time":1776756527854,"url":"http://registry.npmmirror.com/read-cmd-shim","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/read-cmd-shim"},"options":{"compress":true},"status":301}}

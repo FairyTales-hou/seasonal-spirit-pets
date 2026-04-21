@@ -1,0 +1,2 @@
+
+6f411f6544be4a5caf2673200637305da2527a10	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/data-uri-to-buffer","integrity":null,"time":1776756527885,"size":"262","metadata":{"time":1776756527885,"url":"http://registry.npmmirror.com/data-uri-to-buffer","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/data-uri-to-buffer"},"options":{"compress":true},"status":301}}

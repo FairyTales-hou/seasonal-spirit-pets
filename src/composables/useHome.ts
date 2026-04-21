@@ -12,7 +12,8 @@ export function useHome() {
   const recordEntries = computed(() => homeStore.recordEntries)
   const getPetById = (petId?: string) => PETS.find((pet) => pet.id === petId)
   const currentPet = computed(() => getPetById(homeData.value.petId) ?? PETS[0])
-  const unlockedPets = computed(() => PETS.filter((pet) => pet.unlocked || pet.id === homeData.value.petId))
+  const isPetUnlocked = (petId: string) => homeStore.isPetUnlocked(petId)
+  const unlockedPets = computed(() => PETS.filter((pet) => isPetUnlocked(pet.id)))
   const favoritePets = computed(() => PETS.filter((pet) => favoritePetIds.value.includes(pet.id)))
   const currentTermContent = computed(() => getSolarTermContent(homeData.value.petId))
   const isFavoritePet = (petId: string) => homeStore.isFavoritePet(petId)
@@ -24,6 +25,7 @@ export function useHome() {
     currentPet,
     getPetById,
     isFavoritePet,
+    isPetUnlocked,
     pets: PETS,
     unlockedPets,
     recordEntries,

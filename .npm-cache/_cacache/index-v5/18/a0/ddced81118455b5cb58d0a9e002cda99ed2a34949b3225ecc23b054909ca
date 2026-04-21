@@ -1,0 +1,2 @@
+
+c74df76f81dc3bf284440b2a5ef2ac45a9255d8a	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/https-proxy-agent","integrity":null,"time":1776677328477,"size":"262","metadata":{"time":1776677328477,"url":"http://registry.npmmirror.com/https-proxy-agent","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:48 GMT","location":"https://registry.npmmirror.com/https-proxy-agent"},"options":{"compress":true},"status":301}}

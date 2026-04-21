@@ -1,0 +1,2 @@
+
+6f697cb520662eb751cbca0adfa403058b8b7743	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/formdata-polyfill","integrity":null,"time":1776677328860,"size":"262","metadata":{"time":1776677328860,"url":"http://registry.npmmirror.com/formdata-polyfill","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:49 GMT","location":"https://registry.npmmirror.com/formdata-polyfill"},"options":{"compress":true},"status":301}}

@@ -1,0 +1,2 @@
+
+63ee457ceadf3168ae38cebbc66464af8469b112	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/bin-links","integrity":null,"time":1776677328428,"size":"262","metadata":{"time":1776677328428,"url":"http://registry.npmmirror.com/bin-links","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:48 GMT","location":"https://registry.npmmirror.com/bin-links"},"options":{"compress":true},"status":301}}

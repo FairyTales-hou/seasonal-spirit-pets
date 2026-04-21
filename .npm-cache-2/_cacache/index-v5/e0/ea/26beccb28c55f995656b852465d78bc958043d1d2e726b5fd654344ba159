@@ -1,0 +1,2 @@
+
+7b1b46f888eec0cc0e9130d95fb30d5830b5ca19	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/web-streams-polyfill","integrity":null,"time":1776756528384,"size":"262","metadata":{"time":1776756528384,"url":"http://registry.npmmirror.com/web-streams-polyfill","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/web-streams-polyfill"},"options":{"compress":true},"status":301}}

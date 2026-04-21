@@ -1,0 +1,278 @@
+0 verbose cli C:\dev\nodejs\node.exe C:\dev\nvm\v20.19.4\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.8.2
+2 info using node@v20.19.4
+3 silly config load:file:C:\dev\nvm\v20.19.4\node_modules\npm\npmrc
+4 silly config load:file:D:\ctsi\practice\seasonal-spirit-pets\.npmrc
+5 silly config load:file:C:\Users\13592\.npmrc
+6 silly config load:file:C:\dev\nodejs\etc\npmrc
+7 verbose title npm exec supabase@2.92.1 secrets set PUSH_CHANNEL=bark --project-ref bkxivnvduiwkklaumrvy
+8 verbose argv "exec" "--yes" "--" "supabase@2.92.1" "secrets" "set" "PUSH_CHANNEL=bark" "--project-ref" "bkxivnvduiwkklaumrvy"
+9 verbose logfile logs-max:10 dir:D:\ctsi\practice\seasonal-spirit-pets\.npm-cache-2\_logs\2026-04-21T07_28_23_851Z-
+10 verbose logfile D:\ctsi\practice\seasonal-spirit-pets\.npm-cache-2\_logs\2026-04-21T07_28_23_851Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 http fetch GET 200 https://registry.npmmirror.com/npm 953ms
+14 http fetch GET 200 https://registry.npmmirror.com/supabase 179ms (cache miss)
+15 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+16 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+17 silly idealTree buildDeps
+18 silly fetch manifest supabase@2.92.1
+19 silly packumentCache full:http://registry.npmmirror.com/supabase cache-miss
+20 http fetch GET 200 https://registry.npmmirror.com/supabase 247ms (cache miss)
+21 silly packumentCache full:http://registry.npmmirror.com/supabase set size:604992 disposed:false
+22 silly placeDep ROOT supabase@2.92.1 OK for:  want: 2.92.1
+23 silly fetch manifest bin-links@^6.0.0
+24 silly packumentCache full:http://registry.npmmirror.com/bin-links cache-miss
+25 silly fetch manifest https-proxy-agent@^9.0.0
+26 silly packumentCache full:http://registry.npmmirror.com/https-proxy-agent cache-miss
+27 silly fetch manifest node-fetch@^3.3.2
+28 silly packumentCache full:http://registry.npmmirror.com/node-fetch cache-miss
+29 silly fetch manifest tar@7.5.13
+30 silly packumentCache full:http://registry.npmmirror.com/tar cache-miss
+31 http fetch GET 200 https://registry.npmmirror.com/bin-links 103ms (cache miss)
+32 silly packumentCache full:http://registry.npmmirror.com/bin-links set size:17901 disposed:false
+33 http fetch GET 200 https://registry.npmmirror.com/tar 181ms (cache miss)
+34 silly packumentCache full:http://registry.npmmirror.com/tar set size:71768 disposed:false
+35 http fetch GET 200 https://registry.npmmirror.com/https-proxy-agent 202ms (cache miss)
+36 silly packumentCache full:http://registry.npmmirror.com/https-proxy-agent set size:15916 disposed:false
+37 http fetch GET 200 https://registry.npmmirror.com/node-fetch 243ms (cache miss)
+38 silly packumentCache full:http://registry.npmmirror.com/node-fetch set size:63386 disposed:false
+39 silly placeDep ROOT bin-links@6.0.0 OK for: supabase@2.92.1 want: ^6.0.0
+40 silly placeDep ROOT https-proxy-agent@9.0.0 OK for: supabase@2.92.1 want: ^9.0.0
+41 silly placeDep ROOT node-fetch@3.3.2 OK for: supabase@2.92.1 want: ^3.3.2
+42 silly placeDep ROOT tar@7.5.13 OK for: supabase@2.92.1 want: 7.5.13
+43 silly fetch manifest cmd-shim@^8.0.0
+44 silly packumentCache full:http://registry.npmmirror.com/cmd-shim cache-miss
+45 silly fetch manifest npm-normalize-package-bin@^5.0.0
+46 silly packumentCache full:http://registry.npmmirror.com/npm-normalize-package-bin cache-miss
+47 silly fetch manifest proc-log@^6.0.0
+48 silly packumentCache full:http://registry.npmmirror.com/proc-log cache-miss
+49 silly fetch manifest read-cmd-shim@^6.0.0
+50 silly packumentCache full:http://registry.npmmirror.com/read-cmd-shim cache-miss
+51 silly fetch manifest write-file-atomic@^7.0.0
+52 silly packumentCache full:http://registry.npmmirror.com/write-file-atomic cache-miss
+53 silly fetch manifest debug@^4.3.4
+54 silly packumentCache full:http://registry.npmmirror.com/debug cache-miss
+55 silly fetch manifest agent-base@9.0.0
+56 silly packumentCache full:http://registry.npmmirror.com/agent-base cache-miss
+57 silly fetch manifest data-uri-to-buffer@^4.0.0
+58 silly packumentCache full:http://registry.npmmirror.com/data-uri-to-buffer cache-miss
+59 silly fetch manifest fetch-blob@^3.1.4
+60 silly packumentCache full:http://registry.npmmirror.com/fetch-blob cache-miss
+61 silly fetch manifest formdata-polyfill@^4.0.10
+62 silly packumentCache full:http://registry.npmmirror.com/formdata-polyfill cache-miss
+63 silly fetch manifest @isaacs/fs-minipass@^4.0.0
+64 silly packumentCache full:http://registry.npmmirror.com/@isaacs%2ffs-minipass cache-miss
+65 silly fetch manifest chownr@^3.0.0
+66 silly packumentCache full:http://registry.npmmirror.com/chownr cache-miss
+67 silly fetch manifest minipass@^7.1.2
+68 silly packumentCache full:http://registry.npmmirror.com/minipass cache-miss
+69 silly fetch manifest minizlib@^3.1.0
+70 silly packumentCache full:http://registry.npmmirror.com/minizlib cache-miss
+71 silly fetch manifest yallist@^5.0.0
+72 silly packumentCache full:http://registry.npmmirror.com/yallist cache-miss
+73 http fetch GET 200 https://registry.npmmirror.com/proc-log 226ms (cache miss)
+74 silly packumentCache full:http://registry.npmmirror.com/proc-log set size:9938 disposed:false
+75 http fetch GET 200 https://registry.npmmirror.com/read-cmd-shim 227ms (cache miss)
+76 silly packumentCache full:http://registry.npmmirror.com/read-cmd-shim set size:8323 disposed:false
+77 http fetch GET 200 https://registry.npmmirror.com/cmd-shim 239ms (cache miss)
+78 silly packumentCache full:http://registry.npmmirror.com/cmd-shim set size:11666 disposed:false
+79 http fetch GET 200 https://registry.npmmirror.com/write-file-atomic 280ms (cache miss)
+80 silly packumentCache full:http://registry.npmmirror.com/write-file-atomic set size:17446 disposed:false
+81 http fetch GET 200 https://registry.npmmirror.com/fetch-blob 281ms (cache miss)
+82 silly packumentCache full:http://registry.npmmirror.com/fetch-blob set size:13804 disposed:false
+83 http fetch GET 200 https://registry.npmmirror.com/agent-base 293ms (cache miss)
+84 silly packumentCache full:http://registry.npmmirror.com/agent-base set size:13928 disposed:false
+85 http fetch GET 200 https://registry.npmmirror.com/@isaacs%2ffs-minipass 293ms (cache miss)
+86 silly packumentCache full:http://registry.npmmirror.com/@isaacs%2ffs-minipass set size:2989 disposed:false
+87 http fetch GET 200 https://registry.npmmirror.com/chownr 310ms (cache miss)
+88 silly packumentCache full:http://registry.npmmirror.com/chownr set size:4259 disposed:false
+89 http fetch GET 200 https://registry.npmmirror.com/npm-normalize-package-bin 318ms (cache miss)
+90 silly packumentCache full:http://registry.npmmirror.com/npm-normalize-package-bin set size:6419 disposed:false
+91 http fetch GET 200 https://registry.npmmirror.com/data-uri-to-buffer 315ms (cache miss)
+92 silly packumentCache full:http://registry.npmmirror.com/data-uri-to-buffer set size:10542 disposed:false
+93 http fetch GET 200 https://registry.npmmirror.com/debug 327ms (cache miss)
+94 silly packumentCache full:http://registry.npmmirror.com/debug set size:32036 disposed:false
+95 http fetch GET 200 https://registry.npmmirror.com/yallist 334ms (cache miss)
+96 silly packumentCache full:http://registry.npmmirror.com/yallist set size:7662 disposed:false
+97 http fetch GET 200 https://registry.npmmirror.com/minizlib 335ms (cache miss)
+98 silly packumentCache full:http://registry.npmmirror.com/minizlib set size:9513 disposed:false
+99 http fetch GET 200 https://registry.npmmirror.com/formdata-polyfill 347ms (cache miss)
+100 silly packumentCache full:http://registry.npmmirror.com/formdata-polyfill set size:15182 disposed:false
+101 http fetch GET 200 https://registry.npmmirror.com/minipass 350ms (cache miss)
+102 silly packumentCache full:http://registry.npmmirror.com/minipass set size:57428 disposed:false
+103 silly placeDep ROOT cmd-shim@8.0.0 OK for: bin-links@6.0.0 want: ^8.0.0
+104 silly placeDep ROOT npm-normalize-package-bin@5.0.0 OK for: bin-links@6.0.0 want: ^5.0.0
+105 silly placeDep ROOT proc-log@6.1.0 OK for: bin-links@6.0.0 want: ^6.0.0
+106 silly placeDep ROOT read-cmd-shim@6.0.0 OK for: bin-links@6.0.0 want: ^6.0.0
+107 silly placeDep ROOT write-file-atomic@7.0.1 OK for: bin-links@6.0.0 want: ^7.0.0
+108 silly fetch manifest signal-exit@^4.0.1
+109 silly packumentCache full:http://registry.npmmirror.com/signal-exit cache-miss
+110 http fetch GET 200 https://registry.npmmirror.com/signal-exit 73ms (cache miss)
+111 silly packumentCache full:http://registry.npmmirror.com/signal-exit set size:12845 disposed:false
+112 silly placeDep ROOT agent-base@9.0.0 OK for: https-proxy-agent@9.0.0 want: 9.0.0
+113 silly placeDep ROOT debug@4.4.3 OK for: https-proxy-agent@9.0.0 want: ^4.3.4
+114 silly fetch manifest ms@^2.1.3
+115 silly packumentCache full:http://registry.npmmirror.com/ms cache-miss
+116 http fetch GET 200 https://registry.npmmirror.com/ms 87ms (cache miss)
+117 silly packumentCache full:http://registry.npmmirror.com/ms set size:15985 disposed:false
+118 silly placeDep ROOT ms@2.1.3 OK for: debug@4.4.3 want: ^2.1.3
+119 silly placeDep ROOT data-uri-to-buffer@4.0.1 OK for: node-fetch@3.3.2 want: ^4.0.0
+120 silly placeDep ROOT fetch-blob@3.2.0 OK for: node-fetch@3.3.2 want: ^3.1.4
+121 silly placeDep ROOT formdata-polyfill@4.0.10 OK for: node-fetch@3.3.2 want: ^4.0.10
+122 silly fetch manifest node-domexception@^1.0.0
+123 silly packumentCache full:http://registry.npmmirror.com/node-domexception cache-miss
+124 silly fetch manifest web-streams-polyfill@^3.0.3
+125 silly packumentCache full:http://registry.npmmirror.com/web-streams-polyfill cache-miss
+126 http fetch GET 200 https://registry.npmmirror.com/node-domexception 95ms (cache miss)
+127 silly packumentCache full:http://registry.npmmirror.com/node-domexception set size:4561 disposed:false
+128 http fetch GET 200 https://registry.npmmirror.com/web-streams-polyfill 103ms (cache miss)
+129 silly packumentCache full:http://registry.npmmirror.com/web-streams-polyfill set size:23360 disposed:false
+130 silly placeDep ROOT node-domexception@1.0.0 OK for: fetch-blob@3.2.0 want: ^1.0.0
+131 silly placeDep ROOT web-streams-polyfill@3.3.3 OK for: fetch-blob@3.2.0 want: ^3.0.3
+132 silly placeDep ROOT @isaacs/fs-minipass@4.0.1 OK for: tar@7.5.13 want: ^4.0.0
+133 silly placeDep ROOT chownr@3.0.0 OK for: tar@7.5.13 want: ^3.0.0
+134 silly placeDep ROOT minipass@7.1.3 OK for: tar@7.5.13 want: ^7.1.2
+135 silly placeDep ROOT minizlib@3.1.0 OK for: tar@7.5.13 want: ^3.1.0
+136 silly placeDep ROOT yallist@5.0.0 OK for: tar@7.5.13 want: ^5.0.0
+137 silly fetch manifest minipass@^7.0.4
+138 silly packumentCache full:http://registry.npmmirror.com/minipass cache-hit
+139 silly placeDep ROOT signal-exit@4.1.0 OK for: write-file-atomic@7.0.1 want: ^4.0.1
+140 silly reify moves {}
+141 silly audit bulk request {
+141 silly audit   supabase: [ '2.92.1' ],
+141 silly audit   'bin-links': [ '6.0.0' ],
+141 silly audit   'https-proxy-agent': [ '9.0.0' ],
+141 silly audit   'node-fetch': [ '3.3.2' ],
+141 silly audit   tar: [ '7.5.13' ],
+141 silly audit   'cmd-shim': [ '8.0.0' ],
+141 silly audit   'npm-normalize-package-bin': [ '5.0.0' ],
+141 silly audit   'proc-log': [ '6.1.0' ],
+141 silly audit   'read-cmd-shim': [ '6.0.0' ],
+141 silly audit   'write-file-atomic': [ '7.0.1' ],
+141 silly audit   'agent-base': [ '9.0.0' ],
+141 silly audit   debug: [ '4.4.3' ],
+141 silly audit   ms: [ '2.1.3' ],
+141 silly audit   'data-uri-to-buffer': [ '4.0.1' ],
+141 silly audit   'fetch-blob': [ '3.2.0' ],
+141 silly audit   'formdata-polyfill': [ '4.0.10' ],
+141 silly audit   'node-domexception': [ '1.0.0' ],
+141 silly audit   'web-streams-polyfill': [ '3.3.3' ],
+141 silly audit   '@isaacs/fs-minipass': [ '4.0.1' ],
+141 silly audit   chownr: [ '3.0.0' ],
+141 silly audit   minipass: [ '7.1.3' ],
+141 silly audit   minizlib: [ '3.1.0' ],
+141 silly audit   yallist: [ '5.0.0' ],
+141 silly audit   'signal-exit': [ '4.1.0' ]
+141 silly audit }
+142 silly tarball no local data for yallist@https://registry.npmmirror.com/yallist/-/yallist-5.0.0.tgz. Extracting by manifest.
+143 silly tarball no local data for @isaacs/fs-minipass@https://registry.npmmirror.com/@isaacs/fs-minipass/-/fs-minipass-4.0.1.tgz. Extracting by manifest.
+144 silly tarball no local data for minizlib@https://registry.npmmirror.com/minizlib/-/minizlib-3.1.0.tgz. Extracting by manifest.
+145 silly tarball no local data for minipass@https://registry.npmmirror.com/minipass/-/minipass-7.1.3.tgz. Extracting by manifest.
+146 silly tarball no local data for signal-exit@https://registry.npmmirror.com/signal-exit/-/signal-exit-4.1.0.tgz. Extracting by manifest.
+147 silly tarball no local data for web-streams-polyfill@https://registry.npmmirror.com/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz. Extracting by manifest.
+148 silly tarball no local data for chownr@https://registry.npmmirror.com/chownr/-/chownr-3.0.0.tgz. Extracting by manifest.
+149 silly tarball no local data for formdata-polyfill@https://registry.npmmirror.com/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz. Extracting by manifest.
+150 silly tarball no local data for node-domexception@https://registry.npmmirror.com/node-domexception/-/node-domexception-1.0.0.tgz. Extracting by manifest.
+151 silly tarball no local data for fetch-blob@https://registry.npmmirror.com/fetch-blob/-/fetch-blob-3.2.0.tgz. Extracting by manifest.
+152 silly tarball no local data for data-uri-to-buffer@https://registry.npmmirror.com/data-uri-to-buffer/-/data-uri-to-buffer-4.0.1.tgz. Extracting by manifest.
+153 silly tarball no local data for debug@https://registry.npmmirror.com/debug/-/debug-4.4.3.tgz. Extracting by manifest.
+154 silly tarball no local data for agent-base@https://registry.npmmirror.com/agent-base/-/agent-base-9.0.0.tgz. Extracting by manifest.
+155 silly tarball no local data for write-file-atomic@https://registry.npmmirror.com/write-file-atomic/-/write-file-atomic-7.0.1.tgz. Extracting by manifest.
+156 silly tarball no local data for ms@https://registry.npmmirror.com/ms/-/ms-2.1.3.tgz. Extracting by manifest.
+157 silly tarball no local data for read-cmd-shim@https://registry.npmmirror.com/read-cmd-shim/-/read-cmd-shim-6.0.0.tgz. Extracting by manifest.
+158 silly tarball no local data for proc-log@https://registry.npmmirror.com/proc-log/-/proc-log-6.1.0.tgz. Extracting by manifest.
+159 silly tarball no local data for npm-normalize-package-bin@https://registry.npmmirror.com/npm-normalize-package-bin/-/npm-normalize-package-bin-5.0.0.tgz. Extracting by manifest.
+160 silly tarball no local data for cmd-shim@https://registry.npmmirror.com/cmd-shim/-/cmd-shim-8.0.0.tgz. Extracting by manifest.
+161 silly tarball no local data for tar@https://registry.npmmirror.com/tar/-/tar-7.5.13.tgz. Extracting by manifest.
+162 silly tarball no local data for node-fetch@https://registry.npmmirror.com/node-fetch/-/node-fetch-3.3.2.tgz. Extracting by manifest.
+163 silly tarball no local data for https-proxy-agent@https://registry.npmmirror.com/https-proxy-agent/-/https-proxy-agent-9.0.0.tgz. Extracting by manifest.
+164 silly tarball no local data for bin-links@https://registry.npmmirror.com/bin-links/-/bin-links-6.0.0.tgz. Extracting by manifest.
+165 silly tarball no local data for supabase@https://registry.npmmirror.com/supabase/-/supabase-2.92.1.tgz. Extracting by manifest.
+166 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/advisories/bulk 285ms (cache skip)
+167 silly audit bulk request failed [object Object]
+168 http fetch POST 404 https://registry.npmmirror.com/-/npm/v1/security/audits/quick 146ms (cache skip)
+169 verbose audit error HttpErrorGeneral: 404 Not Found - POST https://registry.npmmirror.com/-/npm/v1/security/audits/quick - [NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet
+169 verbose audit error     at C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\npm-registry-fetch\lib\check-response.js:95:15
+169 verbose audit error     at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+169 verbose audit error     at async [getReport] (C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:336:21)
+169 verbose audit error     at async AuditReport.run (C:\dev\nvm\v20.19.4\node_modules\npm\node_modules\@npmcli\arborist\lib\audit-report.js:106:19) {
+169 verbose audit error   headers: [Object: null prototype] {
+169 verbose audit error     server: [ 'Tengine' ],
+169 verbose audit error     date: [ 'Tue, 21 Apr 2026 07:28:49 GMT' ],
+169 verbose audit error     'content-type': [ 'application/json' ],
+169 verbose audit error     'transfer-encoding': [ 'chunked' ],
+169 verbose audit error     connection: [ 'keep-alive' ],
+169 verbose audit error     'strict-transport-security': [ 'max-age=5184000' ],
+169 verbose audit error     via: [ 'kunlun7.cn9398[,404666]' ],
+169 verbose audit error     'timing-allow-origin': [ '*' ],
+169 verbose audit error     eagleid: [ '968bf10e17767565294515647e' ],
+169 verbose audit error     'x-fetch-attempts': [ '1' ],
+169 verbose audit error     'x-local-cache-status': [ 'skip' ]
+169 verbose audit error   },
+169 verbose audit error   statusCode: 404,
+169 verbose audit error   code: 'E404',
+169 verbose audit error   method: 'POST',
+169 verbose audit error   uri: 'https://registry.npmmirror.com/-/npm/v1/security/audits/quick',
+169 verbose audit error   body: {
+169 verbose audit error     error: '[NOT_IMPLEMENTED] /-/npm/v1/security/* not implemented yet'
+169 verbose audit error   },
+169 verbose audit error   pkgid: undefined
+169 verbose audit error }
+170 silly audit error [object Object]
+171 silly audit report null
+172 http fetch GET 200 https://cdn.npmmirror.com/packages/node-domexception/1.0.0/node-domexception-1.0.0.tgz 503ms (cache miss)
+173 http fetch GET 200 https://cdn.npmmirror.com/packages/%40isaacs/fs-minipass/4.0.1/fs-minipass-4.0.1.tgz 522ms (cache miss)
+174 http fetch GET 200 https://cdn.npmmirror.com/packages/ms/2.1.3/ms-2.1.3.tgz 501ms (cache miss)
+175 http fetch GET 200 https://cdn.npmmirror.com/packages/formdata-polyfill/4.0.10/formdata-polyfill-4.0.10.tgz 514ms (cache miss)
+176 http fetch GET 200 https://cdn.npmmirror.com/packages/fetch-blob/3.2.0/fetch-blob-3.2.0.tgz 510ms (cache miss)
+177 http fetch GET 200 https://cdn.npmmirror.com/packages/cmd-shim/8.0.0/cmd-shim-8.0.0.tgz 503ms (cache miss)
+178 http fetch GET 200 https://cdn.npmmirror.com/packages/agent-base/9.0.0/agent-base-9.0.0.tgz 511ms (cache miss)
+179 http fetch GET 200 https://cdn.npmmirror.com/packages/proc-log/6.1.0/proc-log-6.1.0.tgz 513ms (cache miss)
+180 http fetch GET 200 https://cdn.npmmirror.com/packages/debug/4.4.3/debug-4.4.3.tgz 520ms (cache miss)
+181 http fetch GET 200 https://cdn.npmmirror.com/packages/https-proxy-agent/9.0.0/https-proxy-agent-9.0.0.tgz 508ms (cache miss)
+182 http fetch GET 200 https://cdn.npmmirror.com/packages/supabase/2.92.1/supabase-2.92.1.tgz 504ms (cache miss)
+183 http fetch GET 200 https://cdn.npmmirror.com/packages/data-uri-to-buffer/4.0.1/data-uri-to-buffer-4.0.1.tgz 523ms (cache miss)
+184 http fetch GET 200 https://cdn.npmmirror.com/packages/read-cmd-shim/6.0.0/read-cmd-shim-6.0.0.tgz 518ms (cache miss)
+185 http fetch GET 200 https://cdn.npmmirror.com/packages/write-file-atomic/7.0.1/write-file-atomic-7.0.1.tgz 523ms (cache miss)
+186 http fetch GET 200 https://cdn.npmmirror.com/packages/npm-normalize-package-bin/5.0.0/npm-normalize-package-bin-5.0.0.tgz 524ms (cache miss)
+187 http fetch GET 200 https://cdn.npmmirror.com/packages/yallist/5.0.0/yallist-5.0.0.tgz 650ms (cache miss)
+188 http fetch GET 200 https://cdn.npmmirror.com/packages/bin-links/6.0.0/bin-links-6.0.0.tgz 638ms (cache miss)
+189 http fetch GET 200 https://cdn.npmmirror.com/packages/node-fetch/3.3.2/node-fetch-3.3.2.tgz 671ms (cache miss)
+190 http fetch GET 200 https://cdn.npmmirror.com/packages/minizlib/3.1.0/minizlib-3.1.0.tgz 700ms (cache miss)
+191 http fetch GET 200 https://cdn.npmmirror.com/packages/minipass/7.1.3/minipass-7.1.3.tgz 703ms (cache miss)
+192 http fetch GET 200 https://cdn.npmmirror.com/packages/signal-exit/4.1.0/signal-exit-4.1.0.tgz 723ms (cache miss)
+193 warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+194 http fetch GET 200 https://cdn.npmmirror.com/packages/chownr/3.0.0/chownr-3.0.0.tgz 993ms (cache miss)
+195 http fetch GET 200 https://cdn.npmmirror.com/packages/web-streams-polyfill/3.3.3/web-streams-polyfill-3.3.3.tgz 1837ms (cache miss)
+196 http fetch GET 200 https://cdn.npmmirror.com/packages/tar/7.5.13/tar-7.5.13.tgz 2270ms (cache miss)
+197 info run supabase@2.92.1 postinstall node_modules/supabase node scripts/postinstall.js
+198 info run supabase@2.92.1 postinstall { code: 1, signal: null }
+199 warn cleanup Failed to remove some directories [
+199 warn cleanup   [
+199 warn cleanup     'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache-2\\_npx\\06689db7500b0362\\node_modules',
+199 warn cleanup     [Error: EPERM: operation not permitted, rmdir 'D:\ctsi\practice\seasonal-spirit-pets\.npm-cache-2\_npx\06689db7500b0362\node_modules\tar\dist\commonjs'] {
+199 warn cleanup       errno: -4048,
+199 warn cleanup       code: 'EPERM',
+199 warn cleanup       syscall: 'rmdir',
+199 warn cleanup       path: 'D:\\ctsi\\practice\\seasonal-spirit-pets\\.npm-cache-2\\_npx\\06689db7500b0362\\node_modules\\tar\\dist\\commonjs'
+199 warn cleanup     }
+199 warn cleanup   ]
+199 warn cleanup ]
+200 silly unfinished npm timer reify 1776756527229
+201 silly unfinished npm timer reify:build 1776756530840
+202 silly unfinished npm timer build 1776756530841
+203 silly unfinished npm timer build:deps 1776756530841
+204 silly unfinished npm timer build:run:postinstall 1776756530846
+205 silly unfinished npm timer build:run:postinstall:node_modules/supabase 1776756530846
+206 verbose cwd D:\ctsi\practice\seasonal-spirit-pets
+207 verbose os Windows_NT 10.0.26200
+208 verbose node v20.19.4
+209 verbose npm  v10.8.2
+210 notice
+210 notice New major version of npm available! 10.8.2 -> 11.12.1
+210 notice Changelog: https://github.com/npm/cli/releases/tag/v11.12.1
+210 notice To update run: npm install -g npm@11.12.1
+210 notice  { force: true, [Symbol(proc-log.meta)]: true }
+211 verbose exit 1
+212 verbose code 1

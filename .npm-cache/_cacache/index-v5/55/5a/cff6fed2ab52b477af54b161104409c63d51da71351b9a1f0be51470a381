@@ -1,0 +1,2 @@
+
+f80bb60fea5b614b3d9fc66fd5c192a7a5b12273	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/@isaacs%2ffs-minipass","integrity":null,"time":1776677328855,"size":"262","metadata":{"time":1776677328855,"url":"http://registry.npmmirror.com/@isaacs%2ffs-minipass","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:49 GMT","location":"https://registry.npmmirror.com/@isaacs%2ffs-minipass"},"options":{"compress":true},"status":301}}

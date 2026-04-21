@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import type { RecordEntry } from '@/types/home'
+import type { ReminderSubscriptionChannel, ReminderSubscriptionStatus } from '@/types/home'
 import { HOME_DATA, INTERACTION_BUBBLES } from '@/mock/home'
+import { PETS } from '@/mock/pets'
 import { getSolarTermContent } from '@/mock/solar-term-content'
 import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
 import { getCity } from '@/utils/location'
@@ -13,6 +15,9 @@ const HOME_STORAGE_KEY = 'seasonal-spirit-pets:home'
 const GROWTH_REWARD = 8
 const MAX_RECORD_ENTRIES = 24
 const MILESTONE_STEPS = [3, 7, 14]
+
+const BASE_UNLOCKED_IDS = PETS.filter((pet) => pet.unlocked).map((pet) => pet.id)
+const MAX_UNLOCK_PROGRESS = Math.max(0, PETS.length - BASE_UNLOCKED_IDS.length)
 
 interface HomeStorageState {
   interactionDone: boolean
@@ -27,9 +32,13 @@ interface HomeStorageState {
   dailyReminderEnabled: boolean
   solarTermReminderEnabled: boolean
   reminderTime: string
+  reminderSubscriptionStatus: ReminderSubscriptionStatus
+  reminderSubscriptionChannel: ReminderSubscriptionChannel
+  reminderSubscriptionUpdatedAt: string
+  petUnlockProgress: number
 }
 
-interface HydrateResult extends Partial<HomeStorageState> { }
+interface HydrateResult extends Partial<HomeStorageState> {}
 
 function createRecordId(dateKey: string, kind: string) {
   return `${dateKey}-${kind}-${Math.random().toString(36).slice(2, 8)}`
@@ -81,6 +90,25 @@ function createMilestoneRecord(dateKey: string, title: string, content: string):
   }
 }
 
+function clampUnlockProgress(value: number) {
+  return Math.min(Math.max(value, 0), MAX_UNLOCK_PROGRESS)
+}
+
+function buildUnlockedPetIds(progress: number) {
+  const unlockedCount = BASE_UNLOCKED_IDS.length + clampUnlockProgress(progress)
+  return PETS.slice(0, unlockedCount).map((pet) => pet.id)
+}
+
+function getUnlockProgressByPetId(petId: string) {
+  const currentIndex = PETS.findIndex((pet) => pet.id === petId)
+  if (currentIndex < 0) {
+    return 0
+  }
+
+  // Keep all already passed solar-term pets unlocked.
+  return clampUnlockProgress(currentIndex + 1 - BASE_UNLOCKED_IDS.length)
+}
+
 export const useHomeStore = defineStore('home', {
   state: () => ({
     homeData: { ...HOME_DATA },
@@ -88,51 +116,86 @@ export const useHomeStore = defineStore('home', {
     lastInteractDate: '',
     recordEntries: [] as RecordEntry[],
     cloudUserId: '' as string,
+    petUnlockProgress: 0,
+    unlockedPetIds: buildUnlockedPetIds(0),
   }),
   actions: {
+    refreshUnlockedPetIds() {
+      this.unlockedPetIds = buildUnlockedPetIds(this.petUnlockProgress)
+    },
+    isPetUnlocked(petId: string) {
+      return this.unlockedPetIds.includes(petId) || petId === this.homeData.petId
+    },
     normalizeHydratedState(savedState: HydrateResult | undefined) {
       if (!savedState) {
         return
       }
 
-      if (typeof savedState?.interactionDone === 'boolean') {
+      if (typeof savedState.interactionDone === 'boolean') {
         this.homeData.interactionDone = savedState.interactionDone
       }
 
-      if (typeof savedState?.growthValue === 'number') {
+      if (typeof savedState.growthValue === 'number') {
         this.homeData.growthValue = savedState.growthValue
       }
 
-      if (typeof savedState?.streakDays === 'number') {
+      if (typeof savedState.streakDays === 'number') {
         this.homeData.streakDays = savedState.streakDays
       }
 
-      if (typeof savedState?.petBubble === 'string' && savedState.petBubble) {
+      if (typeof savedState.petBubble === 'string' && savedState.petBubble) {
         this.homeData.petBubble = savedState.petBubble
       }
 
-      if (typeof savedState?.cityName === 'string' && savedState.cityName) {
+      if (typeof savedState.cityName === 'string' && savedState.cityName) {
         this.homeData.cityName = savedState.cityName
       }
 
-      if (typeof savedState?.reminderEnabled === 'boolean') {
+      if (typeof savedState.reminderEnabled === 'boolean') {
         this.homeData.reminderEnabled = savedState.reminderEnabled
       }
 
-      if (typeof savedState?.dailyReminderEnabled === 'boolean') {
+      if (typeof savedState.dailyReminderEnabled === 'boolean') {
         this.homeData.dailyReminderEnabled = savedState.dailyReminderEnabled
       }
 
-      if (typeof savedState?.solarTermReminderEnabled === 'boolean') {
+      if (typeof savedState.solarTermReminderEnabled === 'boolean') {
         this.homeData.solarTermReminderEnabled = savedState.solarTermReminderEnabled
       }
 
-      if (typeof savedState?.reminderTime === 'string' && savedState.reminderTime) {
+      if (typeof savedState.reminderTime === 'string' && savedState.reminderTime) {
         this.homeData.reminderTime = savedState.reminderTime
       }
 
+      if (
+        savedState.reminderSubscriptionStatus === 'granted' ||
+        savedState.reminderSubscriptionStatus === 'denied' ||
+        savedState.reminderSubscriptionStatus === 'unsupported'
+      ) {
+        this.homeData.reminderSubscriptionStatus = savedState.reminderSubscriptionStatus
+      } else if (savedState.reminderSubscriptionStatus === 'unknown') {
+        this.homeData.reminderSubscriptionStatus = 'unknown'
+      }
+
+      if (
+        savedState.reminderSubscriptionChannel === 'wechat-subscribe' ||
+        savedState.reminderSubscriptionChannel === 'web-notification'
+      ) {
+        this.homeData.reminderSubscriptionChannel = savedState.reminderSubscriptionChannel
+      } else if (savedState.reminderSubscriptionChannel === 'none') {
+        this.homeData.reminderSubscriptionChannel = 'none'
+      }
+
+      if (typeof savedState.reminderSubscriptionUpdatedAt === 'string') {
+        this.homeData.reminderSubscriptionUpdatedAt = savedState.reminderSubscriptionUpdatedAt
+      }
+
+      if (typeof savedState.petUnlockProgress === 'number') {
+        this.petUnlockProgress = clampUnlockProgress(savedState.petUnlockProgress)
+      }
+
       const todayKey = toDateKey(new Date())
-      const lastDate = typeof savedState?.lastInteractDate === 'string' ? savedState.lastInteractDate : ''
+      const lastDate = typeof savedState.lastInteractDate === 'string' ? savedState.lastInteractDate : ''
       if (lastDate) {
         this.lastInteractDate = lastDate
       }
@@ -145,13 +208,13 @@ export const useHomeStore = defineStore('home', {
         }
       }
 
-      const favoritePetIds = savedState?.favoritePetIds
-
+      const favoritePetIds = savedState.favoritePetIds
       if (Array.isArray(favoritePetIds)) {
         this.favoritePetIds = favoritePetIds.filter((item): item is string => typeof item === 'string')
       }
 
-      this.recordEntries = normalizeRecordEntries(savedState?.recordEntries)
+      this.recordEntries = normalizeRecordEntries(savedState.recordEntries)
+      this.refreshUnlockedPetIds()
     },
     async hydrate() {
       const localState = uni.getStorageSync(HOME_STORAGE_KEY) as Partial<HomeStorageState> | undefined
@@ -175,7 +238,6 @@ export const useHomeStore = defineStore('home', {
           return
         }
 
-        // 首次云端登录时，把本地状态回写到 Supabase。
         await this.persist()
       } catch (error) {
         console.warn('[supabase] hydrate 失败，使用本地数据', error)
@@ -212,11 +274,23 @@ export const useHomeStore = defineStore('home', {
       dailyReminderEnabled: boolean
       solarTermReminderEnabled: boolean
       reminderTime: string
+      reminderSubscriptionStatus?: ReminderSubscriptionStatus
+      reminderSubscriptionChannel?: ReminderSubscriptionChannel
+      reminderSubscriptionUpdatedAt?: string
     }) {
       this.homeData.reminderEnabled = payload.reminderEnabled
       this.homeData.dailyReminderEnabled = payload.dailyReminderEnabled
       this.homeData.solarTermReminderEnabled = payload.solarTermReminderEnabled
       this.homeData.reminderTime = payload.reminderTime
+      if (payload.reminderSubscriptionStatus) {
+        this.homeData.reminderSubscriptionStatus = payload.reminderSubscriptionStatus
+      }
+      if (payload.reminderSubscriptionChannel) {
+        this.homeData.reminderSubscriptionChannel = payload.reminderSubscriptionChannel
+      }
+      if (typeof payload.reminderSubscriptionUpdatedAt === 'string') {
+        this.homeData.reminderSubscriptionUpdatedAt = payload.reminderSubscriptionUpdatedAt
+      }
       await this.persist()
     },
     interact(action: string) {
@@ -226,7 +300,9 @@ export const useHomeStore = defineStore('home', {
 
       const dateKey = toDateKey(new Date())
       const bubble = INTERACTION_BUBBLES[Math.floor(Math.random() * INTERACTION_BUBBLES.length)]
-      const growthValue = Math.min(this.homeData.growthValue + GROWTH_REWARD, this.homeData.nextLevelGrowth)
+      const rawGrowthValue = this.homeData.growthValue + GROWTH_REWARD
+      const levelReached = rawGrowthValue >= this.homeData.nextLevelGrowth
+      const growthValue = levelReached ? rawGrowthValue - this.homeData.nextLevelGrowth : rawGrowthValue
       const nextStreakDays = this.homeData.streakDays + 1
       const milestoneEntries: RecordEntry[] = []
 
@@ -240,14 +316,31 @@ export const useHomeStore = defineStore('home', {
         )
       }
 
-      if (growthValue === this.homeData.nextLevelGrowth) {
-        milestoneEntries.push(
-          createMilestoneRecord(
-            dateKey,
-            '成长值抵达当前阶段上限',
-            `成长值已经来到 ${growthValue}，下一步可以继续把陪伴积累成新的阶段。`,
-          ),
-        )
+      if (levelReached) {
+        if (this.petUnlockProgress < MAX_UNLOCK_PROGRESS) {
+          this.petUnlockProgress += 1
+          this.refreshUnlockedPetIds()
+
+          const unlockedPetId = this.unlockedPetIds[this.unlockedPetIds.length - 1]
+          const unlockedPet = PETS.find((pet) => pet.id === unlockedPetId)
+          if (unlockedPet) {
+            milestoneEntries.push(
+              createMilestoneRecord(
+                dateKey,
+                `升级成功，解锁「${unlockedPet.name}」`,
+                `成长值达到 ${this.homeData.nextLevelGrowth}，图鉴新增 ${unlockedPet.solarTerm} 灵宠。`,
+              ),
+            )
+          }
+        } else {
+          milestoneEntries.push(
+            createMilestoneRecord(
+              dateKey,
+              '成长值达到阈值',
+              '当前图鉴已经全部解锁，继续陪伴会留下更多互动记录。',
+            ),
+          )
+        }
       }
 
       this.homeData = {
@@ -258,6 +351,7 @@ export const useHomeStore = defineStore('home', {
         petBubble: bubble,
       }
       this.lastInteractDate = dateKey
+
       const interactionEntry: RecordEntry = {
         id: createRecordId(dateKey, 'interaction'),
         dateKey,
@@ -266,11 +360,7 @@ export const useHomeStore = defineStore('home', {
         title: `完成「${action}」`,
         content: `今天和 ${this.homeData.solarTerm} 灵宠一起完成了一次陪伴，成长值 +${GROWTH_REWARD}。`,
       }
-      this.recordEntries = [
-        interactionEntry,
-        ...milestoneEntries,
-        ...this.recordEntries,
-      ].slice(0, MAX_RECORD_ENTRIES)
+      this.recordEntries = [interactionEntry, ...milestoneEntries, ...this.recordEntries].slice(0, MAX_RECORD_ENTRIES)
 
       void this.persist()
 
@@ -296,6 +386,12 @@ export const useHomeStore = defineStore('home', {
       this.homeData.petId = term.id
       this.homeData.daysUntilNextTerm = daysUntilNext
       this.homeData.suggestions = getSolarTermContent(term.id).suggestions
+
+      const currentTermProgress = getUnlockProgressByPetId(term.id)
+      if (currentTermProgress > this.petUnlockProgress) {
+        this.petUnlockProgress = currentTermProgress
+        this.refreshUnlockedPetIds()
+      }
 
       try {
         this.homeData.almanac = getAlmanacContent(now, term.name)
@@ -334,10 +430,16 @@ export const useHomeStore = defineStore('home', {
         dailyReminderEnabled: this.homeData.dailyReminderEnabled,
         solarTermReminderEnabled: this.homeData.solarTermReminderEnabled,
         reminderTime: this.homeData.reminderTime,
+        reminderSubscriptionStatus: this.homeData.reminderSubscriptionStatus,
+        reminderSubscriptionChannel: this.homeData.reminderSubscriptionChannel,
+        reminderSubscriptionUpdatedAt: this.homeData.reminderSubscriptionUpdatedAt,
       }
     },
     persistLocal() {
-      uni.setStorageSync(HOME_STORAGE_KEY, this.buildPersistPayload())
+      uni.setStorageSync(HOME_STORAGE_KEY, {
+        ...this.buildPersistPayload(),
+        petUnlockProgress: this.petUnlockProgress,
+      } satisfies HomeStorageState)
     },
     async persist() {
       const payload = this.buildPersistPayload()

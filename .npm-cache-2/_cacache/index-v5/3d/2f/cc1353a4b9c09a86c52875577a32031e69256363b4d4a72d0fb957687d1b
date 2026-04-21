@@ -1,0 +1,2 @@
+
+f5fa8476bb39260738e078569895301f2708e50f	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/write-file-atomic","integrity":null,"time":1776756527884,"size":"262","metadata":{"time":1776756527884,"url":"http://registry.npmmirror.com/write-file-atomic","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Tue, 21 Apr 2026 07:28:48 GMT","location":"https://registry.npmmirror.com/write-file-atomic"},"options":{"compress":true},"status":301}}

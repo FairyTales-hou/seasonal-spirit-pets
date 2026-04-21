@@ -7,7 +7,7 @@ import { ROUTES } from '@/constants/routes'
 import { SEASON_LABELS } from '@/constants/solar-terms'
 import type { PetProfile } from '@/types/pet'
 
-const { pets, homeData } = useHome()
+const { pets, homeData, isPetUnlocked } = useHome()
 
 const groups = ['spring', 'summer', 'autumn', 'winter'] as const
 const copy = {
@@ -20,7 +20,7 @@ const copy = {
   locked: '未解锁',
 }
 
-const isUnlockedPet = (pet: PetProfile) => pet.unlocked || pet.id === homeData.value.petId
+const isUnlockedPet = (pet: PetProfile) => isPetUnlocked(pet.id)
 const atlasUnlockedPets = computed(() => pets.filter((pet) => isUnlockedPet(pet)))
 
 function openPetDetail(pet: PetProfile) {

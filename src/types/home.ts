@@ -32,7 +32,14 @@ export interface HomeData {
   dailyReminderEnabled: boolean
   solarTermReminderEnabled: boolean
   reminderTime: string
+  reminderSubscriptionStatus: ReminderSubscriptionStatus
+  reminderSubscriptionChannel: ReminderSubscriptionChannel
+  reminderSubscriptionUpdatedAt: string
 }
+
+export type ReminderSubscriptionStatus = 'unknown' | 'granted' | 'denied' | 'unsupported'
+
+export type ReminderSubscriptionChannel = 'none' | 'wechat-subscribe' | 'web-notification'
 
 export interface DetailedSuggestionSection {
   title: string

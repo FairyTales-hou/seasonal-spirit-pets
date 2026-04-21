@@ -1,0 +1,2 @@
+
+3a5b8632c810ec6df93cfab0aa65e680eb57da6f	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/minipass","integrity":null,"time":1776677328869,"size":"262","metadata":{"time":1776677328869,"url":"http://registry.npmmirror.com/minipass","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:49 GMT","location":"https://registry.npmmirror.com/minipass"},"options":{"compress":true},"status":301}}

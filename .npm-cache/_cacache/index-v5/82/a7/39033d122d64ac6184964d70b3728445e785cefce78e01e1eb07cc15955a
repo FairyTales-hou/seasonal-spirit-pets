@@ -1,0 +1,2 @@
+
+66d7c195fbfee564867d18c1ba35513af6a829a3	{"key":"make-fetch-happen:request-cache:http://registry.npmmirror.com/tar","integrity":null,"time":1776677328475,"size":"262","metadata":{"time":1776677328475,"url":"http://registry.npmmirror.com/tar","reqHeaders":{"accept":"application/json"},"resHeaders":{"content-type":"text/html","date":"Mon, 20 Apr 2026 09:28:48 GMT","location":"https://registry.npmmirror.com/tar"},"options":{"compress":true},"status":301}}
