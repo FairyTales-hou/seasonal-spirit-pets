@@ -1,8 +1,8 @@
 import type { CityQuery } from '@/utils/location'
 
 const IS_H5_DEV = import.meta.env.DEV
-const GEO_BASE = IS_H5_DEV ? '/qweather-geo/geo' : 'https://geoapi.qweather.com/geo'
-const WEATHER_BASE = IS_H5_DEV ? '/qweather-weather' : 'https://devapi.qweather.com'
+const GEO_BASE = IS_H5_DEV ? '/qweather-geo/geo' : 'https://mf3wt3a8u8.re.qweatherapi.com/geo'
+const WEATHER_BASE = IS_H5_DEV ? '/qweather-weather' : 'https://mf3wt3a8u8.re.qweatherapi.com'
 const QWEATHER_KEY = import.meta.env.VITE_QWEATHER_KEY
 
 interface QWeatherGeoLocation {

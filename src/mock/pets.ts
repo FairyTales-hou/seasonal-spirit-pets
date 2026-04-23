@@ -31,5 +31,5 @@ const PETS_BASE: BasePetProfile[] = [
 
 export const PETS: PetProfile[] = PETS_BASE.map((pet, index) => ({
   ...pet,
-  image: `/static/pets/${index + 1}.png`,
+  image: new URL(`../../static/pets/${index + 1}.png`, import.meta.url).href,
 }))
