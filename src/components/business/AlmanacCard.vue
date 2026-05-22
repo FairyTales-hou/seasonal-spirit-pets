@@ -71,9 +71,8 @@ defineProps<{
 
 .almanac-card__group {
   display: flex;
-  gap: 18rpx;
-  // align-items: flex-start;
   align-items: center;
+  gap: 18rpx;
 }
 
 .almanac-card__badge {

@@ -2,7 +2,7 @@
     "name" : "节气灵宠",
     "appid" : "__UNI__BE77DF9",
     "description" : "陪你过节气的东方生活小宠物",
-    "versionName" : "0.1.1",
+    "versionName" : "1.0.1",
     "versionCode" : 101,
     "transformPx" : false,
     "mp-weixin" : {
@@ -54,7 +54,20 @@
             "ios" : {
                 "idfa" : true,
                 "dSYMs" : false
+            },
+            "sdkConfigs" : {
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
+                }
             }
+        },
+        "modules" : {
+            "Barcode" : {},
+            "Camera" : {},
+            "Geolocation" : {}
         }
-    }
+    },
+    "fallbackLocale" : "en"
 }

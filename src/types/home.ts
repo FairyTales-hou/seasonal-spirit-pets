@@ -15,6 +15,7 @@ export interface AlmanacSummary {
 
 export interface HomeData {
   dateText: string
+  weekdayText?: string
   solarTerm: string
   solarTermTagline: string
   daysUntilNextTerm: number

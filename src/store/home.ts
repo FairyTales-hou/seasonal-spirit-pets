@@ -4,10 +4,11 @@ import type { ReminderSubscriptionChannel, ReminderSubscriptionStatus } from '@/
 import { HOME_DATA, INTERACTION_BUBBLES } from '@/mock/home'
 import { PETS } from '@/mock/pets'
 import { getSolarTermContent } from '@/mock/solar-term-content'
-import { formatDateChinese, getCurrentSolarTerm, toDateKey } from '@/utils/date'
+import { formatDateChinese, getCurrentSolarTerm, getWeekdayChinese, toDateKey } from '@/utils/date'
 import { getCity } from '@/utils/location'
 import { getWeatherSummary } from '@/services/weather'
 import { getAlmanacContent } from '@/services/almanac'
+import { getDynamicPetBubble } from '@/services/pet-bubble'
 import { ensureAnonymousUserId, isSupabaseEnabled } from '@/services/supabase'
 import { fetchHomeProfile, upsertHomeProfile, type HomeProfilePayload } from '@/services/home-profile'
 
@@ -381,6 +382,7 @@ export const useHomeStore = defineStore('home', {
       const { term, daysUntilNext } = getCurrentSolarTerm(now)
 
       this.homeData.dateText = formatDateChinese(now)
+      this.homeData.weekdayText = getWeekdayChinese(now)
       this.homeData.solarTerm = term.name
       this.homeData.solarTermTagline = term.tagline
       this.homeData.petId = term.id
@@ -400,8 +402,20 @@ export const useHomeStore = defineStore('home', {
         this.homeData.almanac = null
       }
 
+      const todayKey = toDateKey(now)
+      const currentPet = PETS.find((item) => item.id === term.id)
+      if (!this.homeData.interactionDone || this.lastInteractDate !== todayKey) {
+        this.homeData.petBubble = getDynamicPetBubble({
+          date: now,
+          solarTerm: term.name,
+          petName: currentPet?.name ?? '灵宠',
+          solarTermTagline: term.tagline,
+          almanac: this.homeData.almanac,
+        })
+      }
+
       if (this.recordEntries.length === 0) {
-        this.recordEntries = [createSeedRecord(toDateKey(now), term.name)]
+        this.recordEntries = [createSeedRecord(todayKey, term.name)]
       }
 
       try {

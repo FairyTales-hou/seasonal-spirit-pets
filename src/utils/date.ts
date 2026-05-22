@@ -5,90 +5,96 @@ import type { SolarTermItem } from '@/constants/solar-terms'
 // 格式：[月(1-based), 日]
 const SOLAR_TERM_DATES: Record<number, [number, number][]> = {
   2025: [
-    [2, 3],  // 立春
-    [2, 18], // 雨水
-    [3, 5],  // 惊蛰
-    [3, 20], // 春分
-    [4, 4],  // 清明
-    [4, 20], // 谷雨
-    [5, 5],  // 立夏
-    [5, 21], // 小满
-    [6, 5],  // 芒种
-    [6, 21], // 夏至
-    [7, 7],  // 小暑
-    [7, 22], // 大暑
-    [8, 7],  // 立秋
-    [8, 23], // 处暑
-    [9, 7],  // 白露
-    [9, 23], // 秋分
-    [10, 8], // 寒露
-    [10, 23],// 霜降
-    [11, 7], // 立冬
-    [11, 22],// 小雪
-    [12, 7], // 大雪
-    [12, 22],// 冬至
-    [1, 5],  // 小寒（跨年，实为2026-01-05）
-    [1, 20], // 大寒（跨年，实为2026-01-20）
+    [2, 3],
+    [2, 18],
+    [3, 5],
+    [3, 20],
+    [4, 4],
+    [4, 20],
+    [5, 5],
+    [5, 21],
+    [6, 5],
+    [6, 21],
+    [7, 7],
+    [7, 22],
+    [8, 7],
+    [8, 23],
+    [9, 7],
+    [9, 23],
+    [10, 8],
+    [10, 23],
+    [11, 7],
+    [11, 22],
+    [12, 7],
+    [12, 22],
+    [1, 5],
+    [1, 20],
   ],
   2026: [
-    [2, 4],  // 立春
-    [2, 18], // 雨水
-    [3, 5],  // 惊蛰
-    [3, 20], // 春分
-    [4, 5],  // 清明
-    [4, 20], // 谷雨
-    [5, 5],  // 立夏
-    [5, 21], // 小满
-    [6, 6],  // 芒种
-    [6, 21], // 夏至
-    [7, 7],  // 小暑
-    [7, 23], // 大暑
-    [8, 7],  // 立秋
-    [8, 23], // 处暑
-    [9, 8],  // 白露
-    [9, 23], // 秋分
-    [10, 8], // 寒露
-    [10, 23],// 霜降
-    [11, 7], // 立冬
-    [11, 22],// 小雪
-    [12, 7], // 大雪
-    [12, 22],// 冬至
-    [1, 5],  // 小寒（跨年，实为2027-01-05）
-    [1, 20], // 大寒（跨年，实为2027-01-20）
+    [2, 4],
+    [2, 18],
+    [3, 5],
+    [3, 20],
+    [4, 5],
+    [4, 20],
+    [5, 5],
+    [5, 21],
+    [6, 6],
+    [6, 21],
+    [7, 7],
+    [7, 23],
+    [8, 7],
+    [8, 23],
+    [9, 8],
+    [9, 23],
+    [10, 8],
+    [10, 23],
+    [11, 7],
+    [11, 22],
+    [12, 7],
+    [12, 22],
+    [1, 5],
+    [1, 20],
   ],
   2027: [
-    [2, 3],  // 立春
-    [2, 18], // 雨水
-    [3, 6],  // 惊蛰
-    [3, 21], // 春分
-    [4, 5],  // 清明
-    [4, 20], // 谷雨
-    [5, 6],  // 立夏
-    [5, 21], // 小满
-    [6, 6],  // 芒种
-    [6, 21], // 夏至
-    [7, 7],  // 小暑
-    [7, 23], // 大暑
-    [8, 7],  // 立秋
-    [8, 23], // 处暑
-    [9, 8],  // 白露
-    [9, 23], // 秋分
-    [10, 8], // 寒露
-    [10, 24],// 霜降
-    [11, 7], // 立冬
-    [11, 22],// 小雪
-    [12, 7], // 大雪
-    [12, 22],// 冬至
-    [1, 5],  // 小寒（跨年，实为2028-01-05）
-    [1, 20], // 大寒（跨年，实为2028-01-20）
+    [2, 3],
+    [2, 18],
+    [3, 6],
+    [3, 21],
+    [4, 5],
+    [4, 20],
+    [5, 6],
+    [5, 21],
+    [6, 6],
+    [6, 21],
+    [7, 7],
+    [7, 23],
+    [8, 7],
+    [8, 23],
+    [9, 8],
+    [9, 23],
+    [10, 8],
+    [10, 24],
+    [11, 7],
+    [11, 22],
+    [12, 7],
+    [12, 22],
+    [1, 5],
+    [1, 20],
   ],
 }
+
+const WEEKDAY_TEXT = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
 
 export function formatDateChinese(date: Date): string {
   const y = date.getFullYear()
   const m = date.getMonth() + 1
   const d = date.getDate()
   return `${y} 年 ${m} 月 ${d} 日`
+}
+
+export function getWeekdayChinese(date: Date) {
+  return WEEKDAY_TEXT[date.getDay()] ?? WEEKDAY_TEXT[0]
 }
 
 export function toDateKey(date: Date): string {
@@ -111,15 +117,12 @@ export function getCurrentSolarTerm(date: Date): CurrentSolarTermResult {
   const year = date.getFullYear()
   const today = new Date(year, date.getMonth(), date.getDate(), 0, 0, 0, 0)
 
-  // Build a flat list of {date, termIndex} covering prev-year tail + this year + next-year head
-  // so we handle year boundaries correctly
   type Entry = { date: Date; termIndex: number }
   const entries: Entry[] = []
 
   for (const y of [year - 1, year, year + 1]) {
     const rows = SOLAR_TERM_DATES[y] ?? SOLAR_TERM_DATES[2026]
     rows.forEach(([m, d], i) => {
-      // The last two entries (indices 22, 23) are actually the NEXT calendar year
       const actualYear = i >= 22 ? y + 1 : y
       entries.push({ date: toMidnight(actualYear, m, d), termIndex: i % 24 })
     })
@@ -127,7 +130,6 @@ export function getCurrentSolarTerm(date: Date): CurrentSolarTermResult {
 
   entries.sort((a, b) => a.date.getTime() - b.date.getTime())
 
-  // Find the most recent term that has already started
   let currentIdx = 0
   for (let i = 0; i < entries.length; i++) {
     if (entries[i].date.getTime() <= today.getTime()) {
