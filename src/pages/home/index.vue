@@ -16,8 +16,10 @@ const appStore = useAppStore()
 const instance = getCurrentInstance()
 
 const CANVAS_ID = 'solar-share-card'
-const canvasWidth = 1080
-const canvasHeight = 1680
+const canvasWidth = 360
+const canvasHeight = 640
+const posterWidth = 1080
+const posterHeight = 1920
 const shareCardFilePath = ref('')
 const shareBusy = ref(false)
 
@@ -170,158 +172,216 @@ function drawSectionTitle(ctx: any, x: number, y: number, title: string) {
   ctx.fillText(title, x, y)
 }
 
+function drawSoftCircle(ctx: any, x: number, y: number, radius: number, color: string, alpha = 1) {
+  ctx.save()
+  ctx.setGlobalAlpha(alpha)
+  ctx.setFillStyle(color)
+  ctx.beginPath()
+  ctx.arc(x, y, radius, 0, Math.PI * 2)
+  ctx.fill()
+  ctx.restore()
+}
+
+function drawDivider(ctx: any, x: number, y: number, width: number) {
+  ctx.setStrokeStyle('rgba(47, 55, 74, 0.16)')
+  ctx.setLineWidth(2)
+  ctx.beginPath()
+  ctx.moveTo(x, y)
+  ctx.lineTo(x + width, y)
+  ctx.stroke()
+}
+
 async function drawShareCard() {
   const petImage = await getImageInfo(currentPet.value.image)
   const almanac = homeData.value.almanac
-  const suitableText = almanac?.suitableActivities.slice(0, 4).join('、') || '静心、整理、散步'
-  const unsuitableText = almanac?.unsuitableActivities.slice(0, 4).join('、') || '熬夜、急躁、过劳'
+  const suitableText = almanac?.suitableActivities.slice(0, 3).join('、') || '静心、整理、散步'
+  const unsuitableText = almanac?.unsuitableActivities.slice(0, 3).join('、') || '熬夜、急躁、过劳'
   const weekdayText = homeData.value.weekdayText || ''
   const featureText = shareFeatureText.value || homeData.value.solarTermTagline
   const quoteText = currentPet.value.quote || homeData.value.petBubble
+  const today = new Date()
+  const monthText = String(today.getMonth() + 1).padStart(2, '0')
+  const dayText = String(today.getDate()).padStart(2, '0')
 
   return await new Promise<string>((resolve, reject) => {
     const ctx = uni.createCanvasContext(CANVAS_ID, instance?.proxy)
+    const renderScale = canvasWidth / posterWidth
+    ctx.scale(renderScale, renderScale)
 
-    const background = ctx.createLinearGradient(0, 0, canvasWidth, canvasHeight)
-    background.addColorStop(0, '#f9f6f0')
-    background.addColorStop(0.38, '#edf5fd')
-    background.addColorStop(1, '#dde9f6')
+    const background = ctx.createLinearGradient(0, 0, posterWidth, posterHeight)
+    background.addColorStop(0, '#4a4e62')
+    background.addColorStop(0.38, '#d9d8ca')
+    background.addColorStop(0.72, '#f4eadc')
+    background.addColorStop(1, '#9dbdd1')
     ctx.setFillStyle(background)
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight)
+    ctx.fillRect(0, 0, posterWidth, posterHeight)
 
-    ctx.setGlobalAlpha(0.8)
-    ctx.setFillStyle('rgba(255, 224, 188, 0.82)')
-    ctx.beginPath()
-    ctx.arc(180, 220, 160, 0, Math.PI * 2)
-    ctx.fill()
+    drawSoftCircle(ctx, 168, 418, 280, 'rgba(255, 210, 160, 0.56)')
+    drawSoftCircle(ctx, 892, 360, 260, 'rgba(118, 151, 190, 0.42)')
+    drawSoftCircle(ctx, 250, 1390, 340, 'rgba(196, 225, 215, 0.58)')
+    drawSoftCircle(ctx, 882, 1490, 300, 'rgba(255, 170, 142, 0.38)')
 
-    ctx.setFillStyle('rgba(124, 176, 233, 0.28)')
-    ctx.beginPath()
-    ctx.arc(928, 202, 190, 0, Math.PI * 2)
-    ctx.fill()
+    ctx.setFillStyle('rgba(255,255,255,0.16)')
+    ctx.fillRect(0, 0, posterWidth, posterHeight)
 
-    ctx.setFillStyle('rgba(103, 142, 193, 0.16)')
-    ctx.beginPath()
-    ctx.arc(882, 1328, 240, 0, Math.PI * 2)
-    ctx.fill()
-    ctx.setGlobalAlpha(1)
+    ctx.setFillStyle('rgba(255,255,255,0.88)')
+    ctx.setFontSize(34)
+    ctx.setTextAlign('center')
+    ctx.fillText('节气灵宠签', posterWidth / 2, 128)
+    ctx.setFillStyle('rgba(255,255,255,0.66)')
+    ctx.setFontSize(28)
+    ctx.fillText('# 今日节气正在陪你 #', posterWidth / 2, 190)
+    ctx.setTextAlign('left')
 
-    roundRectPath(ctx, 48, 48, 984, 1584, 54)
-    ctx.setFillStyle('rgba(255,255,255,0.54)')
+    const cardX = 70
+    const cardY = 260
+    const cardW = 940
+    const cardH = 1328
+
+    ctx.setShadow(0, 30, 70, 'rgba(45, 49, 62, 0.22)')
+    roundRectPath(ctx, cardX, cardY, cardW, cardH, 48)
+    const cardGradient = ctx.createLinearGradient(cardX, cardY, cardX, cardY + cardH)
+    cardGradient.addColorStop(0, 'rgba(255, 233, 168, 0.95)')
+    cardGradient.addColorStop(0.18, 'rgba(255, 248, 219, 0.97)')
+    cardGradient.addColorStop(0.58, 'rgba(255, 253, 245, 0.99)')
+    cardGradient.addColorStop(1, 'rgba(255,255,255,0.96)')
+    ctx.setFillStyle(cardGradient)
     ctx.fill()
-    ctx.setStrokeStyle('rgba(255,255,255,0.8)')
-    ctx.setLineWidth(2)
+    ctx.setShadow(0, 0, 0, 'rgba(0,0,0,0)')
+    ctx.setStrokeStyle('rgba(255,255,255,0.78)')
+    ctx.setLineWidth(3)
     ctx.stroke()
 
-    drawCapsule(ctx, 84, 96, 228, 54, '节气分享海报')
-
-    ctx.setFillStyle('#18314f')
-    ctx.setFontSize(96)
-    ctx.fillText(homeData.value.solarTerm, 84, 238)
-
-    ctx.setFillStyle('rgba(24, 49, 79, 0.76)')
-    ctx.setFontSize(30)
-    ctx.fillText(homeData.value.solarTermTagline, 90, 288)
-
-    roundRectPath(ctx, 800, 100, 160, 188, 26)
-    ctx.setFillStyle('rgba(247, 242, 232, 0.92)')
-    ctx.fill()
-    ctx.setStrokeStyle('rgba(201, 183, 153, 0.62)')
-    ctx.setLineWidth(2)
-    ctx.stroke()
-
-    ctx.setFillStyle('#7c5c39')
-    ctx.setFontSize(24)
-    ctx.fillText('今日日期', 840, 146)
-    ctx.setFillStyle('#18314f')
-    ctx.setFontSize(46)
-    ctx.fillText(String(new Date().getDate()).padStart(2, '0'), 842, 210)
-    ctx.setFontSize(24)
-    ctx.fillText(weekdayText || '', 840, 252)
-
-    roundRectPath(ctx, 84, 346, 912, 520, 42)
-    const heroGradient = ctx.createLinearGradient(84, 346, 996, 866)
-    heroGradient.addColorStop(0, 'rgba(255,255,255,0.74)')
-    heroGradient.addColorStop(1, 'rgba(225,238,251,0.82)')
-    ctx.setFillStyle(heroGradient)
-    ctx.fill()
-
-    ctx.setFillStyle('rgba(54, 97, 146, 0.08)')
-    ctx.beginPath()
-    ctx.arc(542, 586, 226, 0, Math.PI * 2)
-    ctx.fill()
-
-    ctx.setFillStyle('rgba(255,255,255,0.52)')
-    ctx.beginPath()
-    ctx.arc(542, 586, 196, 0, Math.PI * 2)
+    const coverX = 126
+    const coverY = 318
+    const coverW = 828
+    const coverH = 632
+    roundRectPath(ctx, coverX, coverY, coverW, coverH, 28)
+    const coverGradient = ctx.createLinearGradient(coverX, coverY, coverX + coverW, coverY + coverH)
+    coverGradient.addColorStop(0, '#f8dfa2')
+    coverGradient.addColorStop(0.45, '#fff6d9')
+    coverGradient.addColorStop(1, '#d9e9f6')
+    ctx.setFillStyle(coverGradient)
     ctx.fill()
 
     ctx.save()
-    ctx.beginPath()
-    ctx.arc(542, 586, 184, 0, Math.PI * 2)
+    roundRectPath(ctx, coverX + 28, coverY + 28, coverW - 56, coverH - 56, 22)
     ctx.clip()
-    ctx.drawImage(petImage.path, 358, 402, 368, 368)
+    drawSoftCircle(ctx, 320, 526, 210, 'rgba(255, 221, 154, 0.68)')
+    drawSoftCircle(ctx, 775, 574, 248, 'rgba(117, 164, 210, 0.22)')
+    drawSoftCircle(ctx, 780, 610, 188, 'rgba(255,255,255,0.7)')
+    ctx.drawImage(petImage.path, 608, 410, 310, 310)
+
+    ctx.setFillStyle('rgba(255,255,255,0.62)')
+    ctx.fillRect(coverX + 28, coverY + coverH - 160, coverW - 56, 160)
     ctx.restore()
 
-    const topTagWidth = drawTag(ctx, 126, 392, currentPet.value.name)
-    drawTag(ctx, 142 + topTagWidth, 392, `${currentPet.value.solarTerm}灵宠`)
-
-    ctx.setFillStyle('#18314f')
-    ctx.setFontSize(30)
-    fillWrappedText(ctx, featureText, 132, 764, 812, 42, 2)
-
-    roundRectPath(ctx, 126, 806, 828, 86, 28)
-    ctx.setFillStyle('rgba(255,255,255,0.62)')
-    ctx.fill()
-    ctx.setFillStyle('#4e657f')
-    ctx.setFontSize(24)
-    fillWrappedText(ctx, quoteText, 154, 856, 772, 32, 2)
-
-    roundRectPath(ctx, 84, 918, 912, 312, 34)
-    ctx.setFillStyle('rgba(250, 247, 240, 0.86)')
-    ctx.fill()
-    ctx.setStrokeStyle('rgba(215, 201, 175, 0.5)')
+    ctx.setStrokeStyle('rgba(89, 79, 59, 0.16)')
     ctx.setLineWidth(2)
+    roundRectPath(ctx, coverX + 28, coverY + 28, coverW - 56, coverH - 56, 22)
     ctx.stroke()
 
-    drawSectionTitle(ctx, 124, 978, '节气特点')
-    ctx.setFillStyle('#18314f')
-    ctx.setFontSize(32)
-    fillWrappedText(ctx, featureText, 124, 1032, 820, 42, 3)
-
-    drawSectionTitle(ctx, 124, 1168, '今日灵宠絮语')
-    ctx.setFillStyle('rgba(24, 49, 79, 0.76)')
+    ctx.setFillStyle('rgba(255,255,255,0.68)')
+    ctx.setFontSize(22)
+    ctx.fillText('✦  ✦', coverX + 378, coverY + 76)
+    ctx.setFillStyle('#31415d')
     ctx.setFontSize(28)
-    fillWrappedText(ctx, homeData.value.petBubble, 124, 1218, 820, 38, 3)
+    ctx.fillText(currentPet.value.name, coverX + 74, coverY + coverH - 118)
+    ctx.setFillStyle('rgba(49, 65, 93, 0.72)')
+    ctx.setFontSize(24)
+    ctx.fillText(`${currentPet.value.solarTerm}灵宠`, coverX + 74, coverY + coverH - 78)
 
-    roundRectPath(ctx, 84, 1264, 912, 276, 34)
-    const almanacGradient = ctx.createLinearGradient(84, 1264, 996, 1540)
-    almanacGradient.addColorStop(0, 'rgba(243, 248, 255, 0.96)')
-    almanacGradient.addColorStop(1, 'rgba(235, 242, 250, 0.92)')
-    ctx.setFillStyle(almanacGradient)
+    ctx.setTextAlign('right')
+    ctx.setFillStyle('rgba(255,255,255,0.92)')
+    ctx.setFontSize(72)
+    ctx.fillText(homeData.value.solarTerm, coverX + coverW - 76, coverY + 256)
+    ctx.setFillStyle('rgba(255,255,255,0.74)')
+    ctx.setFontSize(28)
+    ctx.fillText('SOLAR TERM', coverX + coverW - 76, coverY + 302)
+    ctx.setTextAlign('left')
+
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(76)
+    ctx.fillText(monthText, 126, 1066)
+    ctx.setFillStyle('rgba(47, 55, 78, 0.58)')
+    ctx.setFontSize(24)
+    ctx.fillText('月', 246, 1056)
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(76)
+    ctx.fillText(dayText, 126, 1194)
+    ctx.setFillStyle('rgba(47, 55, 78, 0.58)')
+    ctx.setFontSize(24)
+    ctx.fillText('日', 246, 1184)
+
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(32)
+    fillWrappedText(ctx, homeData.value.solarTermTagline, 352, 1062, 560, 46, 2)
+    ctx.setFillStyle('rgba(47, 55, 78, 0.68)')
+    ctx.setFontSize(24)
+    ctx.fillText(`${homeData.value.dateText}${weekdayText ? ` · ${weekdayText}` : ''}`, 352, 1176)
+    ctx.setFillStyle('rgba(47, 55, 78, 0.44)')
+    ctx.setFontSize(24)
+    ctx.fillText('— 今日节气心情', 704, 1240)
+
+    ctx.setStrokeStyle('rgba(47, 55, 78, 0.24)')
+    ctx.setLineWidth(3)
+    ctx.setLineDash([8, 14], 0)
+    ctx.beginPath()
+    ctx.moveTo(126, 1282)
+    ctx.lineTo(954, 1282)
+    ctx.stroke()
+    ctx.setLineDash([], 0)
+    drawSoftCircle(ctx, 126, 1282, 10, '#c7d8b7')
+    drawSoftCircle(ctx, 954, 1282, 10, '#c7d8b7')
+
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(26)
+    fillWrappedText(ctx, quoteText, 126, 1362, 828, 40, 2)
+
+    drawDivider(ctx, 126, 1420, 828)
+
+    ctx.setFillStyle('rgba(47, 55, 78, 0.52)')
+    ctx.setFontSize(22)
+    ctx.fillText('今日宜', 150, 1476)
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(32)
+    fillWrappedText(ctx, suitableText, 150, 1528, 300, 38, 2)
+
+    ctx.setStrokeStyle('rgba(47, 55, 78, 0.12)')
+    ctx.setLineWidth(2)
+    ctx.beginPath()
+    ctx.moveTo(540, 1456)
+    ctx.lineTo(540, 1550)
+    ctx.stroke()
+
+    ctx.setFillStyle('rgba(47, 55, 78, 0.52)')
+    ctx.setFontSize(22)
+    ctx.fillText('今日忌', 626, 1476)
+    ctx.setFillStyle('#2f374e')
+    ctx.setFontSize(32)
+    fillWrappedText(ctx, unsuitableText, 626, 1528, 300, 38, 2)
+
+    ctx.setFillStyle('rgba(47, 55, 78, 0.46)')
+    ctx.setFontSize(22)
+    ctx.fillText(almanac?.lunarText || '农历信息生成中', 126, 1640)
+    ctx.setTextAlign('right')
+    ctx.fillText('Seasonal Spirit Pets', 954, 1640)
+    ctx.setTextAlign('left')
+
+    roundRectPath(ctx, 170, 1696, 300, 92, 46)
+    ctx.setFillStyle('rgba(255,255,255,0.92)')
     ctx.fill()
-
-    drawSectionTitle(ctx, 124, 1322, '今日黄历')
-    ctx.setFillStyle('rgba(24, 49, 79, 0.68)')
-    ctx.setFontSize(24)
-    ctx.fillText(almanac?.lunarText || '农历信息生成中', 124, 1364)
-
-    ctx.setFillStyle('#18314f')
+    ctx.setFillStyle('#2f374e')
     ctx.setFontSize(30)
-    ctx.fillText(`宜：${suitableText}`, 124, 1424)
-    ctx.fillText(`忌：${unsuitableText}`, 124, 1478)
+    ctx.setTextAlign('center')
+    ctx.fillText('保存节气签', 320, 1754)
 
-    ctx.setFillStyle('rgba(24, 49, 79, 0.74)')
-    ctx.setFontSize(24)
-    fillWrappedText(ctx, almanac?.seasonalHint || homeData.value.solarTermTagline, 124, 1528, 818, 32, 2)
-
-    ctx.setFillStyle('rgba(47, 95, 152, 0.9)')
-    ctx.setFontSize(22)
-    ctx.fillText(`${homeData.value.dateText}${weekdayText ? ` · ${weekdayText}` : ''}`, 84, 1594)
-
-    ctx.setFillStyle('rgba(24, 49, 79, 0.48)')
-    ctx.setFontSize(22)
-    ctx.fillText('Seasonal Spirit Pets', 786, 1594)
+    roundRectPath(ctx, 610, 1696, 300, 92, 46)
+    ctx.setFillStyle('rgba(255,255,255,0.92)')
+    ctx.fill()
+    ctx.setFillStyle('#2f374e')
+    ctx.fillText('去分享', 760, 1754)
+    ctx.setTextAlign('left')
 
     ctx.draw(false, () => {
       uni.canvasToTempFilePath(
@@ -329,8 +389,8 @@ async function drawShareCard() {
           canvasId: CANVAS_ID,
           width: canvasWidth,
           height: canvasHeight,
-          destWidth: canvasWidth,
-          destHeight: canvasHeight,
+          destWidth: posterWidth,
+          destHeight: posterHeight,
           fileType: 'png',
           quality: 1,
           success: (res) => resolve(res.tempFilePath),
@@ -341,7 +401,6 @@ async function drawShareCard() {
     })
   })
 }
-
 async function ensureShareCardFile() {
   if (shareCardFilePath.value) {
     return shareCardFilePath.value
@@ -480,7 +539,7 @@ onShow(() => {
     <canvas
       canvas-id="solar-share-card"
       class="share-canvas"
-      :style="{ width: `${canvasWidth / 2}px`, height: `${canvasHeight / 2}px` }"
+      :style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }"
       :width="canvasWidth"
       :height="canvasHeight"
     />
