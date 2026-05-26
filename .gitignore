@@ -20,6 +20,6 @@ coverage/
 
 # Git worktrees
 .worktrees/
-.vercel
+# .vercel
 .pnpm-store
 .npm-cache
