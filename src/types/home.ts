@@ -20,6 +20,7 @@ export interface HomeData {
   solarTermTagline: string
   daysUntilNextTerm: number
   weatherSummary: string
+  weatherBubble?: string
   cityName: string
   petId: string
   petBubble: string

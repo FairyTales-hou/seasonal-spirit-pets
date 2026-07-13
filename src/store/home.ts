@@ -39,7 +39,7 @@ interface HomeStorageState {
   petUnlockProgress: number
 }
 
-interface HydrateResult extends Partial<HomeStorageState> {}
+interface HydrateResult extends Partial<HomeStorageState> { }
 
 function createRecordId(dateKey: string, kind: string) {
   return `${dateKey}-${kind}-${Math.random().toString(36).slice(2, 8)}`
@@ -262,6 +262,7 @@ export const useHomeStore = defineStore('home', {
         const displayCity = weather.cityName || this.homeData.cityName
         this.homeData.cityName = displayCity
         this.homeData.weatherSummary = `${displayCity} · ${weather.text} ${weather.temp}°C`
+        this.homeData.weatherBubble = `${weather.text} · ${weather.temp}°C`
         await this.persist()
         return true
       } catch (error) {
@@ -403,17 +404,6 @@ export const useHomeStore = defineStore('home', {
       }
 
       const todayKey = toDateKey(now)
-      const currentPet = PETS.find((item) => item.id === term.id)
-      if (!this.homeData.interactionDone || this.lastInteractDate !== todayKey) {
-        this.homeData.petBubble = getDynamicPetBubble({
-          date: now,
-          solarTerm: term.name,
-          petName: currentPet?.name ?? '灵宠',
-          solarTermTagline: term.tagline,
-          almanac: this.homeData.almanac,
-        })
-      }
-
       if (this.recordEntries.length === 0) {
         this.recordEntries = [createSeedRecord(todayKey, term.name)]
       }
@@ -424,8 +414,21 @@ export const useHomeStore = defineStore('home', {
         const displayCity = weather.cityName || this.homeData.cityName
         this.homeData.cityName = displayCity
         this.homeData.weatherSummary = `${displayCity} · ${weather.text} ${weather.temp}°C`
+        this.homeData.weatherBubble = `${weather.text} · ${weather.temp}°C`
       } catch (e) {
-        console.warn('[weather] 获取失败，保留上一次天气数据', e)
+        console.warn('[weather] 获取失败，保留当前天气数据', e)
+      }
+
+      const currentPet = PETS.find((item) => item.id === term.id)
+      if (!this.homeData.interactionDone || this.lastInteractDate !== todayKey) {
+        this.homeData.petBubble = getDynamicPetBubble({
+          date: now,
+          solarTerm: term.name,
+          petName: currentPet?.name ?? '???',
+          solarTermTagline: term.tagline,
+          weatherSummary: this.homeData.weatherSummary,
+          weatherBubble: this.homeData.weatherBubble,
+        })
       }
 
       void this.persist()

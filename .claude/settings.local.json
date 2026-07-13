@@ -21,7 +21,10 @@
       "Bash(npm --version)",
       "Bash(/bin/ls \"/Users/anbei/my-project/seasonal-spirit-pets/.worktrees/p0-launch-settings\")",
       "Bash(/usr/bin/env PATH=\"/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH\" corepack pnpm type-check)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "mcp__ide__executeCode",
+      "Bash(python *)",
+      "Bash(iconv -f gbk -t utf-8)"
     ]
   }
 }

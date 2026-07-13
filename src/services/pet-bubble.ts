@@ -1,4 +1,3 @@
-import type { AlmanacSummary } from '@/types/home'
 import { toDateKey } from '@/utils/date'
 
 interface PetBubblePayload {
@@ -6,22 +5,23 @@ interface PetBubblePayload {
   solarTerm: string
   petName: string
   solarTermTagline: string
-  almanac: AlmanacSummary | null
+  weatherSummary?: string
+  weatherBubble?: string
 }
 
 const DEFAULT_BUBBLES = [
-  '{solarTerm}的风已经到了，{petName}想陪你把今天过得更从容一些。',
-  '今天适合顺着{solarTerm}的节奏慢慢来，{petName}会一直在这里。',
+  '{solarTerm}的节奏刚刚好，{petName}想陪你把今天过得更从容一些。',
+  '今天适合顺着{solarTerm}慢慢来，{petName}会一直在这里。',
   '{petName}觉得，{solarTerm}里最好的状态，就是把日子过得刚刚好。',
 ]
 
-const ALMANAC_BUBBLES = [
-  '今日宜{activity}，{petName}想和你一起把{solarTerm}过得轻盈一点。',
-  '{solarTerm}里的今天，先从{activity}开始，整个人都会更舒展。',
-  '{petName}偷偷提醒你：今天宜{activity}，也宜对自己温柔一点。',
+const WEATHER_BUBBLES = [
+  '今天{weather}，{petName}觉得很适合把步子放慢一点。',
+  '如果你正看着{weather}，那就让{petName}陪你把这一天过得舒服些。',
+  '{solarTerm}遇上{weather}，今天更适合做些轻松又顺手的事。',
 ]
 
-const HINT_BUBBLES = [
+const TERM_BUBBLES = [
   '{petName}想把一句节气提示送给你：{hint}',
   '{solarTerm}到了，{petName}今天最想说的是：{hint}',
 ]
@@ -36,20 +36,17 @@ function fillTemplate(template: string, payload: Record<string, string>) {
 }
 
 export function getDynamicPetBubble(payload: PetBubblePayload) {
-  const activity = payload.almanac?.suitableActivities?.[0] ?? '静心'
-  const hint = payload.almanac?.seasonalHint || payload.solarTermTagline
+  const weather = payload.weatherBubble?.trim()
+  const hint = payload.solarTermTagline
 
-  const source =
-    payload.almanac?.suitableActivities?.length
-      ? pickByDate(payload.date, ALMANAC_BUBBLES)
-      : payload.almanac?.seasonalHint
-        ? pickByDate(payload.date, HINT_BUBBLES)
-        : pickByDate(payload.date, DEFAULT_BUBBLES)
+  const source = weather
+    ? pickByDate(payload.date, WEATHER_BUBBLES)
+    : pickByDate(payload.date, TERM_BUBBLES.length > 0 ? TERM_BUBBLES : DEFAULT_BUBBLES)
 
   return fillTemplate(source, {
     solarTerm: payload.solarTerm,
     petName: payload.petName,
-    activity,
+    weather: weather || '天气很舒服',
     hint,
   })
 }
